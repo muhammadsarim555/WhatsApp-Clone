@@ -14,6 +14,13 @@ function Navigation() {
         screenOptions={{
           headerShown: false,
         }}>
+           <Stack.Screen
+          name="FormExample"
+          component={Screens.FormExample}
+          screenOptions={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="Home"
           component={Screens.Home}
