@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, ScrollView, Button} from 'react-native';
 import {validation, defaultValues} from './validation';
-import useForm from './../../components/useForm';
+import useForm from './../../components/UseForm';
 import TextInputComponent from './../../components/TextInput';
 
 export default function FromExample() {
