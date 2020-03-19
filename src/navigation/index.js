@@ -14,8 +14,9 @@ function Navigation() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="ContactList" component={Screens.ContactList} />
-        <Stack.Screen name="Login" component={Screens.Login} />
+        {/* <Stack.Screen name="ContactList" component={Screens.ContactList} /> */}
+        {/* <Stack.Screen name="Login" component={Screens.Login} /> */}
+        <Stack.Screen name="Verification" component={Screens.Verification} />
         <Stack.Screen name="Home" component={Screens.Home} />
         <Stack.Screen name="FormExample" component={Screens.FormExample} />
       </Stack.Navigator>

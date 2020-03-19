@@ -15,6 +15,7 @@
     "@react-navigation/stack": "^5.2.1",
     "react": "16.9.0",
     "react-native": "0.61.5",
+    "react-native-confirmation-code-input": "^1.0.4",
     "react-native-contacts": "^5.1.0",
     "react-native-country-code-telephone-input": "0.0.9",
     "react-native-gesture-handler": "^1.6.0",
