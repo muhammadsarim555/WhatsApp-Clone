@@ -24,7 +24,7 @@ function Login({navigation}) {
 
   return (
     // **showfooter** prop is using to show footer
-    <CustomComponents.HeaderFooter showFooter={false}>
+    <CustomComponents.HeaderFooter showFooter={false} navigation={navigation}>
       <View style={styles.container}>
         <View style={{height: height * 0.6, justifyContent: 'space-around'}}>
           <Image

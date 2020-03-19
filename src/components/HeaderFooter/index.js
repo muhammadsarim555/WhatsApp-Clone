@@ -10,7 +10,9 @@ function HeaderFooter(props) {
 
   return (
     <View style={styles.mainContainer}>
-      <TouchableOpacity style={styles.headerContainer}>
+      <TouchableOpacity
+        style={styles.headerContainer}
+        onPress={() => navigation.goBack()}>
         <Icon name="arrow-back" size={30} color="black" />
       </TouchableOpacity>
       <View style={styles.bodyContainer}>{children}</View>

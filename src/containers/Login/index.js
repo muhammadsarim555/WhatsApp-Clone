@@ -29,7 +29,7 @@ function Login({navigation}) {
   console.log({countryName, callingCode, phoneNo});
   return (
     // **showfooter** prop is using to show footer
-    <CustomComponents.HeaderFooter showFooter={false}>
+    <CustomComponents.HeaderFooter showFooter={false} navigation={navigation}>
       <ScrollView style={{flex: 1}} topBounceColor="white">
         <View style={styles.container}>
           <Image
@@ -58,7 +58,7 @@ function Login({navigation}) {
               Policy and Terms.
             </Text>
           </View>
-          <TouchableOpacity style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btnContainer} onPress={() => navigation.navigate("SignUp")}>
             <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>
         </View>

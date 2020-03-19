@@ -29,7 +29,7 @@ function Login({navigation}) {
 
   return (
     // **showfooter** prop is using to show footer
-    <CustomComponents.HeaderFooter showFooter={false}>
+    <CustomComponents.HeaderFooter showFooter={false} navigation={navigation}>
       <ScrollView style={{flex: 1}} topBounceColor="white">
         <View style={styles.container}>
           <View style={styles.subContainer}>
