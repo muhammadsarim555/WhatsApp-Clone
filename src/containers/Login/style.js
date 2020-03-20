@@ -5,7 +5,7 @@ const {width, height} = Dimensions.get('window');
 export default StyleSheet.create({
   iconStyle: {width: 100, height: 100},
   container: {
-    height: height,
+    height: height * 0.8,
     justifyContent: 'space-evenly',
     alignItems: 'flex-start',
   },

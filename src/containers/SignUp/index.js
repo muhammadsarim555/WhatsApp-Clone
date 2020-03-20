@@ -66,11 +66,22 @@ function Login({navigation}) {
             <View style={styles.inputContainer}>
               <TextInput
                 label="User Name"
-                style={{backgroundColor: 'transparent'}}
-                selectionColor={'black'}
+                style={{
+                  fontFamily: 'LexendDeca-Regular',
+                  backgroundColor: 'transparent',
+                  fontSize: 16,
+                }}
                 underlineColor={'rgb(224,229,233)'}
                 mode={'flat'}
-                theme={'green'}
+                theme={{
+                  colors: {
+                    placeholder: 'black',
+                    text: 'black',
+                    primary: 'black',
+                    underlineColor: 'transparent',
+                    background: 'transparent',
+                  },
+                }}
               />
             </View>
           </View>

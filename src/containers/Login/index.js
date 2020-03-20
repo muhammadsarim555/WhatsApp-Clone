@@ -29,8 +29,8 @@ function Login({navigation}) {
   console.log({countryName, callingCode, phoneNo});
   return (
     // **showfooter** prop is using to show footer
-    <CustomComponents.HeaderFooter showFooter={false} navigation={navigation}>
-      <ScrollView style={{flex: 1}} topBounceColor="white">
+    <ScrollView>
+      <CustomComponents.HeaderFooter showFooter={false} navigation={navigation}>
         <View style={styles.container}>
           <Image
             source={require('../../assets/icons/appIcon.png')}
@@ -58,12 +58,14 @@ function Login({navigation}) {
               Policy and Terms.
             </Text>
           </View>
-          <TouchableOpacity style={styles.btnContainer} onPress={() => navigation.navigate("SignUp")}>
+          <TouchableOpacity
+            style={styles.btnContainer}
+            onPress={() => navigation.navigate('SignUp')}>
             <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
-    </CustomComponents.HeaderFooter>
+      </CustomComponents.HeaderFooter>
+    </ScrollView>
   );
 }
 
