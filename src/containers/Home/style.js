@@ -1,4 +1,6 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
+
+const {width, height} = Dimensions.get('screen');
 
 export default StyleSheet.create({
   row: {
@@ -10,15 +12,30 @@ export default StyleSheet.create({
     padding: 10,
     justifyContent: 'space-between',
   },
+  activeCircle: {
+    width: 12,
+    height: 12,
+    backgroundColor: '#16D174',
+    borderRadius: 6,
+  },
   pic: {
-    borderRadius: 25,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  avatarBackground: {
     width: 50,
     height: 50,
+    borderWidth: 2,
+    borderColor: '#16D174',
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   nameContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: 270,
+    width: 250,
   },
   nameTxt: {
     marginLeft: 15,
