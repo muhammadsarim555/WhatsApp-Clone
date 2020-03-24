@@ -15,7 +15,7 @@ import Contacts from 'react-native-contacts';
 
 import styles from './style';
 import {CustomComponents} from '../../components';
-
+// import {useNavgation} from "@react-navigation/native";
 function Home({navigation}) {
   const [allMobileUsers, setAllMobileUsers] = useState([]);
   const [allUsers, setAllUsers] = useState([
@@ -107,7 +107,7 @@ function Home({navigation}) {
       message: 'This app would like to view your contacts.',
       buttonPositive: 'Please accept bare mortal',
     }).then(e => {
-      console.log(e);
+      // console.log(e);
       try {
         Contacts.getAll((err, contacts) => {
           if (err === 'denied') {
@@ -115,7 +115,7 @@ function Home({navigation}) {
           } else {
             setAllMobileUsers(contacts);
 
-            console.log(contacts, '<<>');
+            console.log(contacts[6], '<<>');
           }
         });
       } catch (err) {
@@ -125,25 +125,25 @@ function Home({navigation}) {
   }, []);
 
   function renderItem({item}) {
-    console.log(allMobileUsers, '<all mobile users>');
+    // console.log(allMobileUsers, '<all mobile users>');
     //
     // allMobileUsers.forEach(element =>
     //   console.log(allMobileUsers, 'hello khan'),
     // );
-
+    var defaultImage = "https://bootdey.com/img/Content/avatar/avatar4.png"
     var callIcon = 'https://img.icons8.com/color/48/000000/phone.png';
     if (item.video == true) {
       callIcon = 'https://img.icons8.com/color/48/000000/video-call.png';
     }
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("ChatRoom")}>
         <View style={styles.row}>
           <View style={styles.avatarBackground}>
-            <Image source={{uri: item.image}} style={styles.pic} />
+            <Image source={{uri: defaultImage}} style={styles.pic} />
           </View>
           <View>
             <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt}>{item.name}</Text>
+              <Text style={styles.nameTxt}>{item.displayName}</Text>
               <View
                 style={styles.activeCircle}
               />
@@ -176,10 +176,10 @@ function Home({navigation}) {
     <CustomComponents.Footer navigation={navigation}>
       <View style={{flex: 1}}>
         <FlatList
-          extraData={allUsers}
-          data={allUsers}
+          extraData={allMobileUsers}
+          data={allMobileUsers}
           keyExtractor={item => {
-            return item.id;
+            return item.recordID;
           }}
           renderItem={renderItem}
         />

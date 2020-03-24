@@ -19,6 +19,7 @@ function Navigation() {
         {/* <Stack.Screen name="Verification" component={Screens.Verification} /> */}
         <Stack.Screen name="Home" component={Screens.Home} />
         <Stack.Screen name="FormExample" component={Screens.FormExample} />
+        <Stack.Screen name="ChatRoom" component={Screens.ChatRoom} />
       </Stack.Navigator>
     </NavigationContainer>
   );
