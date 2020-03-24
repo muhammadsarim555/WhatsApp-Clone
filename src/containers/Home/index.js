@@ -16,7 +16,7 @@ import Contacts from 'react-native-contacts';
 import styles from './style';
 import {CustomComponents} from '../../components';
 
-function Home(props) {
+function Home({navigation}) {
   const [allMobileUsers, setAllMobileUsers] = useState([]);
   const [allUsers, setAllUsers] = useState([
     {
@@ -173,7 +173,7 @@ function Home(props) {
   }
 
   return (
-    <CustomComponents.Footer>
+    <CustomComponents.Footer navigation={navigation}>
       <View style={{flex: 1}}>
         <FlatList
           extraData={allUsers}

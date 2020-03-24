@@ -28,11 +28,11 @@ function Footer(props) {
         </View>
         <View style={styles.headerChild}>
           <TouchableOpacity>
-            <Text style={styles.tabsText}>Story</Text>
+            <Text style={styles.tabsText}>Chats</Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Text style={styles.tabsText}>Chats</Text>
+            <Text style={styles.tabsText}>Story</Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
