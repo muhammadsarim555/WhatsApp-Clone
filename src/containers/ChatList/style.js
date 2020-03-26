@@ -63,6 +63,7 @@ export default StyleSheet.create({
     fontWeight: '400',
     color: '#666',
     fontSize: 11,
+    textAlign: "right"
   },
   icon: {
     color: '#777',

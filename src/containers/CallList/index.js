@@ -24,6 +24,8 @@ export default function ChatList() {
       name: 'Mark Doe',
       date: '12 jan',
       time: '11:14 am',
+
+      recieved: true,
       video: false,
       image: 'https://bootdey.com/img/Content/avatar/avatar7.png',
     },
@@ -32,6 +34,8 @@ export default function ChatList() {
       name: 'Clark Man',
       date: '12 jul',
       time: '15:58 am',
+
+      recieved: false,
       video: false,
       image: 'https://bootdey.com/img/Content/avatar/avatar6.png',
     },
@@ -40,6 +44,8 @@ export default function ChatList() {
       name: 'Jaden Boor',
       date: '12 aug',
       time: '12:45 am',
+
+      recieved: true,
       video: true,
       image: 'https://bootdey.com/img/Content/avatar/avatar5.png',
     },
@@ -48,6 +54,8 @@ export default function ChatList() {
       name: 'Srick Tree',
       date: '12 feb',
       time: '08:32 am',
+
+      recieved: true,
       video: false,
       image: 'https://bootdey.com/img/Content/avatar/avatar4.png',
     },
@@ -56,6 +64,8 @@ export default function ChatList() {
       name: 'John Doe',
       date: '12 oct',
       time: '07:45 am',
+
+      recieved: false,
       video: true,
       image: 'https://bootdey.com/img/Content/avatar/avatar3.png',
     },
@@ -64,6 +74,8 @@ export default function ChatList() {
       name: 'John Doe',
       date: '12 jan',
       time: '09:54 am',
+
+      recieved: true,
       video: false,
       image: 'https://bootdey.com/img/Content/avatar/avatar2.png',
     },
@@ -72,6 +84,8 @@ export default function ChatList() {
       name: 'John Doe',
       date: '12 jul',
       time: '11:22 am',
+
+      recieved: true,
       video: true,
       image: 'https://bootdey.com/img/Content/avatar/avatar1.png',
     },
@@ -80,6 +94,8 @@ export default function ChatList() {
       name: 'John Doe',
       date: '12 aug',
       time: '13:33 am',
+
+      recieved: true,
       video: false,
       image: 'https://bootdey.com/img/Content/avatar/avatar4.png',
     },
@@ -88,6 +104,8 @@ export default function ChatList() {
       name: 'John Doe',
       date: '12 oct',
       time: '11:58 am',
+
+      recieved: true,
       video: true,
       image: 'https://bootdey.com/img/Content/avatar/avatar7.png',
     },
@@ -96,6 +114,8 @@ export default function ChatList() {
       name: 'John Doe',
       date: '12 jan',
       time: '09:28 am',
+
+      recieved: true,
       video: false,
       image: 'https://bootdey.com/img/Content/avatar/avatar1.png',
     },
@@ -117,29 +137,53 @@ export default function ChatList() {
           <View style={styles.avatarBackground}>
             <Image source={{uri: defaultImage}} style={styles.pic} />
           </View>
-          <View>
-            <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt}>{item.name}</Text>
-              <Text style={styles.time}>
-                {item.date} {item.time}
-              </Text>
-              {/* <View style={styles.activeCircle} /> */}
-            </View>
-            <View style={styles.end}>
-              <Icon
-                name="check"
-                family="MaterialIcons"
-                size={16}
-                style={styles.icon}
-              />
+          <View style={{flex: 2, flexDirection: 'row'}}>
+            <View style={{flexDirection: 'column'}}>
+              <View style={styles.nameContainer}>
+                <Text style={styles.nameTxt}>{item.name}</Text>
+                <Text style={styles.time}></Text>
+                {/* <View style={styles.activeCircle} /> */}
+              </View>
+              <View style={styles.end}>
+                {item.recieved ? (
+                  <Icon
+                    name="arrow-down-left"
+                    family="Feather"
+                    size={16}
+                    style={[styles.icon, {color: 'red'}]}
+                  />
+                ) : (
+                  <Icon
+                    name="arrow-up-right"
+                    family="Feather"
+                    size={16}
+                    style={[styles.icon, {color: '#16D174'}]}
+                  />
+                )}
 
-              <Text style={styles.msg}>hello dev</Text>
+                <Text style={styles.msg}>
+                  {item.date} {item.time}
+                </Text>
+              </View>
             </View>
           </View>
-          {/* <Image
-            style={[styles.icon, {marginRight: 50}]}
-            source={{uri: callIcon}}
-          /> */}
+          <View style={{flex: 1, alignItems: 'center'}}>
+            {item.video ? (
+              <Icon
+                name="video-call"
+                family="MaterialIcons"
+                size={26}
+                style={styles.icon}
+              />
+            ) : (
+              <Icon
+                name="call"
+                family="MaterialIcons"
+                size={26}
+                style={styles.icon}
+              />
+            )}
+          </View>
         </View>
       </TouchableOpacity>
     );

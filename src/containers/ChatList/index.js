@@ -117,29 +117,28 @@ export default function ChatList() {
           <View style={styles.avatarBackground}>
             <Image source={{uri: defaultImage}} style={styles.pic} />
           </View>
-          <View>
-            <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt}>{item.name}</Text>
-              <Text style={styles.time}>
-                {item.date} {item.time}
-              </Text>
-              {/* <View style={styles.activeCircle} /> */}
-            </View>
-            <View style={styles.end}>
-              <Icon
-                name="check"
-                family="MaterialIcons"
-                size={16}
-                style={styles.icon}
-              />
+          <View style={{flex: 2, flexDirection: 'row'}}>
+            <View style={{flexDirection: 'column'}}>
+              <View style={styles.nameContainer}>
+                <Text style={styles.nameTxt}>{item.name}</Text>
+              </View>
+              <View style={styles.end}>
+                <Icon
+                  name="check"
+                  family="MaterialIcons"
+                  size={16}
+                  style={styles.icon}
+                />
 
-              <Text style={styles.msg}>hello dev</Text>
+                <Text style={styles.msg}>Hello World</Text>
+              </View>
             </View>
           </View>
-          {/* <Image
-            style={[styles.icon, {marginRight: 50}]}
-            source={{uri: callIcon}}
-          /> */}
+          <View style={{flex: 1}}>
+            <Text style={styles.time}>
+              {item.date} {item.time}
+            </Text>
+          </View>
         </View>
       </TouchableOpacity>
     );
