@@ -1,43 +1,28 @@
-import React from 'react'
-import { GiftedChat } from 'react-native-gifted-chat'
+import React from 'react';
+import {GiftedChat} from 'react-native-gifted-chat';
+import {SocketIOProvider, useSocket} from 'use-socketio';
 
-export default class Chat extends React.Component {
-  state = {
-    messages: [],
-  }
+export default function Chat() {
+  const [messages, setMessages] = React.useState([]);
+  const {socket} = useSocket("getChat/123", (data) => {
+    setMessages(GiftedChat.append(messages, data));
+  })
 
-  componentDidMount() {
-    this.setState({
-      messages: [
-        {
-          _id: 1,
-          text: 'Hello developer',
-          createdAt: new Date(),
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: 'https://placeimg.com/140/140/any',
-          },
-        },
-      ],
-    })
-  }
+  React.useEffect(() => {
+    socket.emit("getChat/123", [])
+  },[])
 
-  onSend(messages = []) {
-    this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }))
+  function onSend(messageNew = []) {
+    socket.emit("addChat/123", messageNew)
   }
-
-  render() {
-    return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={messages => this.onSend(messages)}
-        user={{
-          _id: 1,
-        }}
-      />
-    )
-  }
+  console.log('rerender?')
+  return (
+    <GiftedChat
+      messages={messages}
+      onSend={messages => onSend(messages)}
+      user={{
+        _id: 1,
+      }}
+    />
+  );
 }
