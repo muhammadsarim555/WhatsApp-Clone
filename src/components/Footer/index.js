@@ -10,7 +10,7 @@ const footerIconSize = 30;
 const headerIconSize = 27;
 
 function Footer(props) {
-  const {navigation, children} = props;
+  const {navigation, children, screen, tab} = props;
 
   return (
     <View style={styles.mainContainer}>
@@ -27,16 +27,22 @@ function Footer(props) {
           </View>
         </View>
         <View style={styles.headerChild}>
-          <TouchableOpacity>
-            <Text style={styles.tabsText}>Chats</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('ChatList')}>
+            <Text
+              style={[styles.tabsText, {color: tab === 'Chats' && '#16D174'}]}>
+              Chats
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity>
             <Text style={styles.tabsText}>Story</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
-            <Text style={styles.tabsText}>Calls</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('CallList')}>
+            <Text
+              style={[styles.tabsText, {color: tab === 'Calls' && '#16D174'}]}>
+              Calls
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -45,7 +51,11 @@ function Footer(props) {
       <View style={styles.footerContainer}>
         <View style={styles.footerSubContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <HomeIcon name="home" size={footerIconSize} color="#B8B8B8" />
+            <HomeIcon
+              name="home"
+              size={footerIconSize}
+              color={screen === 'Home' ? '#16D174' : '#B8B8B8'}
+            />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Icon

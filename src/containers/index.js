@@ -4,6 +4,8 @@ import FormExample from './FormExample';
 import Verification from './Verification';
 import SignUp from './SignUp';
 import ChatRoom from './ChatRoom';
+import ChatList from './ChatList';
+import CallList from './CallList';
 
 export const Screens = {
   FormExample,
@@ -12,4 +14,6 @@ export const Screens = {
   Verification,
   SignUp,
   ChatRoom,
+  ChatList,
+  CallList
 };
