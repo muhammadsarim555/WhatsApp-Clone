@@ -15,10 +15,10 @@ import Contacts from 'react-native-contacts';
 
 import styles from './style';
 import {CustomComponents} from '../../components';
-// import {useNavgation} from "@react-navigation/native";
+
 function Home({navigation}) {
   const [allMobileUsers, setAllMobileUsers] = useState([]);
- 
+
   useEffect(() => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
       title: 'Contacts',
@@ -43,18 +43,13 @@ function Home({navigation}) {
   }, []);
 
   function renderItem({item}) {
-    // console.log(allMobileUsers, '<all mobile users>');
-    //
-    // allMobileUsers.forEach(element =>
-    //   console.log(allMobileUsers, 'hello khan'),
-    // );
-    var defaultImage = "https://bootdey.com/img/Content/avatar/avatar4.png"
+    var defaultImage = 'https://bootdey.com/img/Content/avatar/avatar4.png';
     var callIcon = 'https://img.icons8.com/color/48/000000/phone.png';
     if (item.video == true) {
       callIcon = 'https://img.icons8.com/color/48/000000/video-call.png';
     }
     return (
-      <TouchableOpacity onPress={() => navigation.navigate("ChatRoom")}>
+      <TouchableOpacity onPress={() => navigation.navigate('ChatRoom')}>
         <View style={styles.row}>
           <View style={styles.avatarBackground}>
             <Image source={{uri: defaultImage}} style={styles.pic} />
@@ -62,9 +57,7 @@ function Home({navigation}) {
           <View>
             <View style={styles.nameContainer}>
               <Text style={styles.nameTxt}>{item.displayName}</Text>
-              <View
-                style={styles.activeCircle}
-              />
+              <View style={styles.activeCircle} />
             </View>
             <View style={styles.end}>
               <Image
