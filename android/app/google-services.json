@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "611156344845",
+    "firebase_url": "https://quiz-app19.firebaseio.com",
+    "project_id": "quiz-app19",
+    "storage_bucket": "quiz-app19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:611156344845:android:30b6c855b175ec19871544",
+        "android_client_info": {
+          "package_name": "com.whatsapp_clone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "611156344845-tqpfflk6sdvh8ml1qb4kjpimh6a87ttj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZIfYIz4lkevcndsAUq03-yWzZ81aTHYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "611156344845-tqpfflk6sdvh8ml1qb4kjpimh6a87ttj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
