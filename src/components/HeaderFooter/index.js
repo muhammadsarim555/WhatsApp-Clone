@@ -13,7 +13,7 @@ function HeaderFooter(props) {
       <TouchableOpacity
         style={styles.headerContainer}
         onPress={() => navigation.goBack()}>
-        <Icon name="arrow-back" size={33} color="black" />
+        <Icon name="keyboard-backspace" size={33} color="black" />
       </TouchableOpacity>
       <View style={styles.bodyContainer}>{children}</View>
 

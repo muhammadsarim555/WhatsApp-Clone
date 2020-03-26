@@ -56,7 +56,7 @@ function Login({navigation}) {
             codeLength={6}
             className={'border-b'}
             space={6}
-            size={60}
+            size={30}
             inputPosition="center"
           />
         </View>

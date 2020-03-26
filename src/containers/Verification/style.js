@@ -3,7 +3,10 @@ import {StyleSheet, Dimensions} from 'react-native';
 const {width, height} = Dimensions.get('window');
 
 export default StyleSheet.create({
-  iconStyle: {width: 100, height: 100},
+  iconStyle: {
+    width: width * 0.3,
+    height: height * 0.2,
+  },
   container: {
     flex: 1,
     alignItems: 'flex-start',

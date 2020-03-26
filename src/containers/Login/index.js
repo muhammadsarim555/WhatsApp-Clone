@@ -39,9 +39,9 @@ function Login({navigation}) {
         //   message: 'Code has been sent!',
         //   isOtp: true,
         // });
-        console.log('code has been send');
 
         //
+        navigation.navigate('Verification');
 
         firebase
           .auth()
@@ -143,7 +143,6 @@ function Login({navigation}) {
       });
   }
 
-  console.log({countryName, callingCode, phoneNo});
   return (
     // **showfooter** prop is using to show footer
     <ScrollView keyboardShouldPersistTaps="always">
