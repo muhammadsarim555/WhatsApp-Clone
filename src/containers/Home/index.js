@@ -84,7 +84,7 @@ function Home({navigation}) {
   }
 
   return (
-    <CustomComponents.Footer navigation={navigation}>
+    <CustomComponents.Footer navigation={navigation} screen="Home" tab="Home">
       <View style={{flex: 1}}>
         <FlatList
           extraData={allMobileUsers}

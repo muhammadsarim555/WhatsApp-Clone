@@ -145,7 +145,7 @@ export default function ChatList() {
   }
 
   return (
-    <CustomComponents.Footer navigation={navigation} screen="Home" tab="Chats">
+    <CustomComponents.Footer navigation={navigation} screen="New Chat">
       <View style={{flex: 1}}>
         <FlatList
           extraData={allChats}

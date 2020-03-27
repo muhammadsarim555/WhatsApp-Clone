@@ -27,9 +27,9 @@ function Footer(props) {
           </View>
         </View>
         <View style={styles.headerChild}>
-          <TouchableOpacity onPress={() => navigation.navigate('ChatList')}>
+          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
             <Text
-              style={[styles.tabsText, {color: tab === 'Chats' && '#16D174'}]}>
+              style={[styles.tabsText, {color: tab === 'Home' && '#16D174'}]}>
               Chats
             </Text>
           </TouchableOpacity>
@@ -57,15 +57,19 @@ function Footer(props) {
               color={screen === 'Home' ? '#16D174' : '#B8B8B8'}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+          <TouchableOpacity onPress={() => navigation.navigate('ChatList')}>
             <Icon
               name="add-circle-outline"
               size={footerIconSize}
-              color="#B8B8B8"
+              color={screen === 'New Chat' ? '#16D174' : '#B8B8B8'}
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-            <Icon name="person-outline" size={footerIconSize} color="#B8B8B8" />
+            <Icon
+              name="person-outline"
+              size={footerIconSize}
+              color={screen === 'MyProfile' ? '#16D174' : '#B8B8B8'}
+            />
           </TouchableOpacity>
         </View>
       </View>
