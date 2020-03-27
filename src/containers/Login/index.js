@@ -13,6 +13,8 @@ import firebase from 'react-native-firebase';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
+import {onUserRegister} from '../../store/Action';
+import {store} from "../../store"
 
 const {width, height} = Dimensions.get('window');
 
@@ -170,7 +172,8 @@ function Login({navigation}) {
           </View>
           <TouchableOpacity
             style={styles.btnContainer}
-            onPress={() => onLoginButtonPress()}>
+            // onPress={() => onLoginButtonPress()}
+            onPress={() => store.dispatch(onUserRegister(1223))}>
             <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>
         </View>
