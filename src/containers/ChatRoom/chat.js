@@ -4,15 +4,17 @@ import {SocketIOProvider, useSocket} from 'use-socketio';
 
 export default function Chat() {
   const [messages, setMessages] = React.useState([]);
-  const {socket} = useSocket("getChat/123", (data) => {
-    setMessages(GiftedChat.append(messages, data));
-  })
+  const {socket} = useSocket()
 
   React.useEffect(() => {
     socket.emit("getChat/123", [])
+    socket.on("getChat/123", (data) => {
+      setMessages(GiftedChat.append(messages, data));
+    })
   },[])
 
   function onSend(messageNew = []) {
+
     socket.emit("addChat/123", messageNew)
   }
   console.log('rerender?')

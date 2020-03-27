@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,18 +9,63 @@ import {
 } from 'react-native';
 
 import CodeInput from 'react-native-confirmation-code-input';
+import {useRoute} from '@react-navigation/native';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
 
 const {width, height} = Dimensions.get('window');
 
-function Login({navigation}) {
+function Verification({route, navigation}) {
   const [countryName, setcountryName] = useState('');
 
-  _onFulfill = code => {
+  useEffect(() => {});
+
+  function _onFulfill(code) {
+    console.log(route.params.confirmResult, '<><><><>');
+
+    const {confirmResult} = route.params;
+    let otp = code;
+
+    console.log(otp, 'otp');
+
+    if (confirmResult && otp) {
+      confirmResult
+        .confirm(otp)
+        .then(user => {
+          console.log('User Has Logged In!', user);
+          // axios
+          //   .post(`http://deaplearning.com/admin/app/api/t/user/login`, {
+          //     u_id: user._user.phoneNumber,
+          //     phone: user._user.phoneNumber,
+          //     push_token: this.state.pushToken
+          //   })
+          //   .then(response => {
+          //     if (response.data.status === 'login failed') {
+          //       store.dispatch(
+          //         onGoogleLoginSuccess({phone: user._user.phoneNumber}),
+          //       );
+          //       this.loadingButton.showLoading(false);
+          //       props.navigation.navigate('AddDetail');
+          //     } else {
+          //       store.dispatch(
+          //         onGoogleLoginSuccess(response.data.current_user[0]),
+          //       );
+          //       this.loadingButton.showLoading(false);
+          //       props.navigation.navigate('AuthLoading');
+          //     }
+          //   });
+        })
+
+        .catch(error => {
+          console.log(error, 'while logigin');
+        });
+    } else {
+      alert('Correct Right Code!');
+    }
+
     console.log(code, '><><><><');
-  };
+  }
 
   return (
     // **showfooter** prop is using to show footer
@@ -52,12 +97,13 @@ function Login({navigation}) {
           <CodeInput
             activeColor={'black'}
             inactiveColor={'gray'}
-            secureTextEntry
             codeLength={6}
+            keyboardType={'numeric'}
             className={'border-b'}
             space={6}
             size={30}
             inputPosition="center"
+            onFulfill={code => _onFulfill(code)}
           />
         </View>
       </View>
@@ -65,4 +111,4 @@ function Login({navigation}) {
   );
 }
 
-export default Login;
+export default Verification;

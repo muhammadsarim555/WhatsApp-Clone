@@ -40,11 +40,10 @@ export default StyleSheet.create({
   },
 
   userImageContainer: {
-    width: 100,
-    height: 100,
+    height: width * 0.28,
+    width: width * 0.28,
     backgroundColor: 'rgb(255,255,255)',
-    borderRadius: 50,
-
+    borderRadius: width * 0.28 * 0.5,
     shadowColor: '#00000021',
     justifyContent: 'center',
     shadowOffset: {
@@ -57,10 +56,17 @@ export default StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
   },
+  userAvatar: {
+    flexDirection: 'row',
+    width: width * 0.22,
+    height: height * 0.14,
+    borderRadius: width * 0.22 * 0.5,
+    alignSelf: 'center',
+  },
   addIconContainer: {
     position: 'absolute',
-    right: 10,
-    top: 75,
+    right: 6,
+    top: 65,
     width: 25,
     height: 25,
     borderRadius: 15,

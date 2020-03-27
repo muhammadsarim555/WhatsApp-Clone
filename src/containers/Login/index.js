@@ -34,14 +34,8 @@ function Login({navigation}) {
       .auth()
       .signInWithPhoneNumber(`+${callingCode}${phoneNo}`)
       .then(confirmResult => {
-        // this.setState({
-        //   confirmResult,
-        //   message: 'Code has been sent!',
-        //   isOtp: true,
-        // });
-
         //
-        navigation.navigate('Verification');
+        navigation.navigate('Verification', {confirmResult});
 
         firebase
           .auth()
@@ -122,7 +116,6 @@ function Login({navigation}) {
                   //         });
                   //     });
                   // }, 3000);
-                  console.log(phoneAuthSnapshot.state);
 
                   break;
               }
@@ -132,7 +125,8 @@ function Login({navigation}) {
               console.log(error.verificationId);
             },
             phoneAuthSnapshot => {
-              console.log(phoneAuthSnapshot);
+              console.log(phoneAuthSnapshot, 'working auto verified');
+              navigation.navigate('SignUp');
             },
           );
 

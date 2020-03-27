@@ -16,16 +16,8 @@ import {CustomComponents} from '../../components/index';
 
 const {width, height} = Dimensions.get('window');
 
-function Login({navigation}) {
-  const [countryName, setcountryName] = useState('');
-  const [callingCode, setcallingCode] = useState('');
+function SignUp({navigation}) {
   const [phoneNo, setphoneNo] = useState('');
-
-  function PhoneNumberPickerChanged(country, callingCode, phoneNumber) {
-    setcountryName(country.name);
-    setcallingCode(callingCode);
-    setphoneNo(phoneNumber);
-  }
 
   return (
     // **showfooter** prop is using to show footer
@@ -35,15 +27,9 @@ function Login({navigation}) {
           <View style={styles.subContainer}>
             <TouchableOpacity style={styles.userImageContainer}>
               <Image
-                source={require('../../assets/icons/appIcon.png')}
+                source={{uri:"https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png"}}
                 resizeMode="cover"
-                style={{
-                  flexDirection: 'row',
-                  width: 90,
-                  height: 90,
-                  borderRadius: 45,
-                  alignSelf: 'center',
-                }}
+                style={styles.userAvatar}
               />
               <View style={styles.addIconContainer}>
                 <AddIcon
@@ -94,4 +80,4 @@ function Login({navigation}) {
   );
 }
 
-export default Login;
+export default SignUp;
