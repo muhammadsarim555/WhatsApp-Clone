@@ -7,21 +7,19 @@ import {Screens} from '../containers';
 
 const Stack = createStackNavigator();
 
-function Navigation() {
+function AuthNavigaor() {
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home" component={Screens.Home} />
-        <Stack.Screen name="ChatList" component={Screens.ChatList} />
-        <Stack.Screen name="CallList" component={Screens.CallList} />
-        <Stack.Screen name="FormExample" component={Screens.FormExample} />
-        <Stack.Screen name="ChatRoom" component={Screens.ChatRoom} />
+        <Stack.Screen name="Login" component={Screens.Login} />
+        <Stack.Screen name="Verification" component={Screens.Verification} />
+        <Stack.Screen name="SignUp" component={Screens.SignUp} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-export default Navigation;
+export default AuthNavigaor;
