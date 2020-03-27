@@ -14,13 +14,13 @@ function Navigation() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Verification" component={Screens.Verification} />
+        {/* <Stack.Screen name="Verification" component={Screens.Verification} />
         <Stack.Screen name="Login" component={Screens.Login} />
         <Stack.Screen name="SignUp" component={Screens.SignUp} />
         <Stack.Screen name="Home" component={Screens.Home} />
         <Stack.Screen name="ChatList" component={Screens.ChatList} />
         <Stack.Screen name="CallList" component={Screens.CallList} />
-        <Stack.Screen name="FormExample" component={Screens.FormExample} />
+        <Stack.Screen name="FormExample" component={Screens.FormExample} /> */}
         <Stack.Screen name="ChatRoom" component={Screens.ChatRoom} />
       </Stack.Navigator>
     </NavigationContainer>
