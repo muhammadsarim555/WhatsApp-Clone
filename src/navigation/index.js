@@ -14,8 +14,8 @@ function Navigation() {
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home" component={Screens.Home} />
         <Stack.Screen name="ChatList" component={Screens.ChatList} />
+        <Stack.Screen name="Home" component={Screens.Home} />
         <Stack.Screen name="CallList" component={Screens.CallList} />
         <Stack.Screen name="FormExample" component={Screens.FormExample} />
         <Stack.Screen name="ChatRoom" component={Screens.ChatRoom} />
