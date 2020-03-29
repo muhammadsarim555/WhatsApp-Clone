@@ -23,12 +23,18 @@ function SignUp({navigation}) {
   const [userAvatar, setUserAvatar] = useState('');
 
   function onSignUp() {
-    store.dispatch(onUserRegister({userName, userAvatar}));
+    store.dispatch(
+      onUserRegister({
+        userName,
+        userAvatar,
+        phone_no: store.getState().auth.user.phone_no,
+      }),
+    );
   }
 
   const getUpdateProps = useSelector(prop => prop.auth);
 
-  getUpdateProps.user ? navigation.navigate('Home') : null;
+  // getUpdateProps.user ? navigation.navigate('Home') : null;
 
   function addAvatar() {
     ImagePicker.openPicker({

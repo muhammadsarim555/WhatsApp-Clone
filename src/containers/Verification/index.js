@@ -10,25 +10,23 @@ import {
 
 import CodeInput from 'react-native-confirmation-code-input';
 import {useRoute} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 import styles from './style';
-import {store} from "../../store"
+import {store} from '../../store';
+import {onUserLogin} from '../../store/Action';
 import {CustomComponents} from '../../components/index';
 
 const {width, height} = Dimensions.get('window');
 
 function Verification({route, navigation}) {
-  const [countryName, setcountryName] = useState('');
+  const getUpdateProps = useSelector(prop => prop.auth);
 
-  useEffect(() => {console.log(store.getState().auth , "<><>??????")});
+  getUpdateProps.user ? navigation.navigate('Home') : null;
 
   function _onFulfill(code) {
-    console.log(route.params.confirmResult, '<><><><>');
-
     const {confirmResult} = route.params;
     let otp = code;
-
-    console.log(otp, 'otp');
 
     if (confirmResult && otp) {
       confirmResult

@@ -13,10 +13,9 @@ import firebase from 'react-native-firebase';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
-import {onUserRegister} from '../../store/Action';
+import {addNumber} from '../../store/Action';
 import {store} from '../../store';
-
-const {width, height} = Dimensions.get('window');
+import {onUserLogin} from '../../store/Action';
 
 function Login({navigation}) {
   const [countryName, setcountryName] = useState('');
@@ -29,14 +28,7 @@ function Login({navigation}) {
     setphoneNo(phoneNumber);
   }
 
-  function changeRoute(navigation) {
-    store.dispatch(onUserRegister({info: `+${callingCode}${phoneNo}`}));
-    navigation.navigate('Verification');
-  }
-
   function onLoginButtonPress(props, number, code) {
-    console.log(`+${callingCode}${phoneNo}`);
-
     firebase
       .auth()
       .signInWithPhoneNumber(`+${callingCode}${phoneNo}`)
@@ -85,43 +77,23 @@ function Login({navigation}) {
                   break;
                 case firebase.auth.PhoneAuthState.AUTO_VERIFIED: // or 'verified'
                   console.log('auto verified on android');
-                  navigation.navigate('Verification');
+                  // navigation.navigate('Verification');
+                  onUserLogin({phone_no: '923172142662'});
 
                   // setTimeout(() => {
-                  //   axios
-                  //     .post(
-                  //       `http://deaplearning.com/admin/app/api/t/user/login`,
-                  //       {
-                  //         u_id: number,
+                  //   if (response.data.status === 'login successfuly') {
+                  //     store.dispatch(
+                  //       onGoogleLoginSuccess(response.data.current_user[0]),
+                  //     );
+                  //     props.navigation.navigate('AuthLoading');
+                  //   } else {
+                  //     store.dispatch(
+                  //       onGoogleLoginSuccess({
                   //         phone: number,
-                  //         push_token: this.state.pushToken,
-                  //       },
-                  //     )
-                  //     .then(response => {
-                  //       if (response.data.status === 'login successfuly') {
-                  //         store.dispatch(
-                  //           onGoogleLoginSuccess(response.data.current_user[0]),
-                  //         );
-                  //         props.navigation.navigate('AuthLoading');
-                  //       } else {
-                  //         store.dispatch(
-                  //           onGoogleLoginSuccess({
-                  //             phone: number,
-                  //           }),
-                  //         );
-                  //         props.navigation.navigate('AddDetail');
-                  //       }
-                  //     })
-
-                  //     .catch(error => {
-                  //       console.log(error, 'errpr');
-
-                  //       // Alert.alert(JSON.stringify(error)) &&
-                  //       this.dropdown.alertWithType('error', 'Error', error) &&
-                  //         this.setState({
-                  //           message: `Code Confirm Error: ${error.message}`,
-                  //         });
-                  //     });
+                  //       }),
+                  //     );
+                  //     props.navigation.navigate('AddDetail');
+                  //   }
                   // }, 3000);
 
                   break;
@@ -133,11 +105,10 @@ function Login({navigation}) {
             },
             phoneAuthSnapshot => {
               console.log(phoneAuthSnapshot, 'working auto verified');
-              navigation.navigate('SignUp');
             },
           );
 
-        // store.dispatch(onGoogleLoginSuccess({phone: number}));
+        store.dispatch(addNumber({phone_no: `+${callingCode}${phoneNo}`}));
       })
       .catch(e => {
         console.log('error =>', e);
@@ -177,9 +148,9 @@ function Login({navigation}) {
           </View>
           <TouchableOpacity
             style={styles.btnContainer}
-            // onPress={() => onLoginButtonPress()}
+            onPress={() => onLoginButtonPress()}
             // onPress={() => store.dispatch(onUserRegister(1223))}
-            onPress={() => changeRoute(navigation)}>
+          >
             <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>
         </View>
