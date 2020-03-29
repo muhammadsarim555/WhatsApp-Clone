@@ -14,7 +14,7 @@ import firebase from 'react-native-firebase';
 import styles from './style';
 import {CustomComponents} from '../../components/index';
 import {onUserRegister} from '../../store/Action';
-import {store} from "../../store"
+import {store} from '../../store';
 
 const {width, height} = Dimensions.get('window');
 
@@ -27,6 +27,11 @@ function Login({navigation}) {
     setcountryName(country.name);
     setcallingCode(callingCode);
     setphoneNo(phoneNumber);
+  }
+
+  function changeRoute(navigation) {
+    store.dispatch(onUserRegister({info: `+${callingCode}${phoneNo}`}));
+    navigation.navigate('Verification');
   }
 
   function onLoginButtonPress(props, number, code) {
@@ -173,7 +178,8 @@ function Login({navigation}) {
           <TouchableOpacity
             style={styles.btnContainer}
             // onPress={() => onLoginButtonPress()}
-            onPress={() => store.dispatch(onUserRegister(1223))}>
+            // onPress={() => store.dispatch(onUserRegister(1223))}
+            onPress={() => changeRoute(navigation)}>
             <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>
         </View>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,14 +10,35 @@ import {
 
 import AddIcon from 'react-native-vector-icons/MaterialIcons';
 import {TextInput} from 'react-native-paper';
+import ImagePicker from 'react-native-image-crop-picker';
+import {useSelector} from 'react-redux';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
-
-const {width, height} = Dimensions.get('window');
+import {store} from '../../store';
+import {onUserRegister} from '../../store/Action';
 
 function SignUp({navigation}) {
-  const [phoneNo, setphoneNo] = useState('');
+  const [userName, setUserName] = useState('');
+  const [userAvatar, setUserAvatar] = useState('');
+
+  function onSignUp() {
+    store.dispatch(onUserRegister({userName, userAvatar}));
+  }
+
+  const getUpdateProps = useSelector(prop => prop.auth);
+
+  getUpdateProps.user ? navigation.navigate('Home') : null;
+
+  function addAvatar() {
+    ImagePicker.openPicker({
+      multiple: true,
+    })
+      .then(images => {
+        setUserAvatar(images[0].path);
+      })
+      .catch(e => console.log(e, 'Getting Issue while upload Images!'));
+  }
 
   return (
     // **showfooter** prop is using to show footer
@@ -25,9 +46,15 @@ function SignUp({navigation}) {
       <ScrollView style={{flex: 1}} topBounceColor="white">
         <View style={styles.container}>
           <View style={styles.subContainer}>
-            <TouchableOpacity style={styles.userImageContainer}>
+            <TouchableOpacity
+              style={styles.userImageContainer}
+              onPress={() => addAvatar()}>
               <Image
-                source={{uri:"https://cdn.pixabay.com/photo/2016/11/18/23/38/child-1837375_960_720.png"}}
+                source={
+                  !userAvatar
+                    ? require('../../assets/icons/profile_thumbnail.png')
+                    : {uri: userAvatar}
+                }
                 resizeMode="cover"
                 style={styles.userAvatar}
               />
@@ -57,6 +84,8 @@ function SignUp({navigation}) {
                   backgroundColor: 'transparent',
                   fontSize: 16,
                 }}
+                value={userName}
+                onChangeText={e => setUserName(e)}
                 underlineColor={'rgb(224,229,233)'}
                 mode={'flat'}
                 theme={{
@@ -71,7 +100,9 @@ function SignUp({navigation}) {
               />
             </View>
           </View>
-          <TouchableOpacity style={styles.btnContainer}>
+          <TouchableOpacity
+            style={styles.btnContainer}
+            onPress={() => onSignUp()}>
             <Text style={styles.btnText}>Finish</Text>
           </TouchableOpacity>
         </View>

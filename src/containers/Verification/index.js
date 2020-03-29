@@ -12,6 +12,7 @@ import CodeInput from 'react-native-confirmation-code-input';
 import {useRoute} from '@react-navigation/native';
 
 import styles from './style';
+import {store} from "../../store"
 import {CustomComponents} from '../../components/index';
 
 const {width, height} = Dimensions.get('window');
@@ -19,7 +20,7 @@ const {width, height} = Dimensions.get('window');
 function Verification({route, navigation}) {
   const [countryName, setcountryName] = useState('');
 
-  useEffect(() => {});
+  useEffect(() => {console.log(store.getState().auth , "<><>??????")});
 
   function _onFulfill(code) {
     console.log(route.params.confirmResult, '<><><><>');

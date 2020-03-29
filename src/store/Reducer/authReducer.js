@@ -2,7 +2,7 @@ import {CURRENTUSER} from '../Action/actionTypes';
 
 const INITIAL_STATE = {
   user: [],
-  fetchingUser: true,
+  networkRequest: false,
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -11,7 +11,7 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
         user: action.payload,
-        fetchingUser: action.fetchLoading,
+        networkRequest: action.networkRequest,
       };
 
     default:

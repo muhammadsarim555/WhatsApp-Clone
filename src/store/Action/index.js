@@ -1,24 +1,36 @@
 import * as actionTypes from './actionTypes';
-
 import {API_URL} from '../../config/apiConfig';
 
+import axios from 'react-native-axios';
+
 const onUserRegister = info => {
-  console.log(info, 'info');
   return dispatch => {
-    dispatch({
-      type: actionTypes.CURRENTUSER,
-      payload: 'sarim',
-      fetchLoading: false,
-    });
-    // fetch(`http://${API_URL}:8000/user/add_user`)
-    //   .then(response => response.json())
-    //   .then(json => {
-    //     dispatch({
-    //       type: actionTypes.BOOKSINFO,
-    //       payload: json,
-    //       fetchLoading: false,
-    //     });
-    //   });
+    let formData = new FormData();
+
+    formData.append('first_name', info.userName);
+    formData.append('contact_no', '+9231721412126647172234567');
+    formData.append('avatar', info.userAvatar);
+
+    axios
+      .post(
+        `http://${API_URL}:8000/user/add_user`,
+        formData,
+
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+      .then(json => {
+        console.log(json.data, 'afrom acton');
+        dispatch({
+          type: actionTypes.CURRENTUSER,
+          payload: json.data,
+          networkRequest: true,
+        });
+      })
+      .catch(e => console.log(e, 'from action'));
   };
 };
 
