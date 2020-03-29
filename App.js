@@ -14,7 +14,7 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SocketIOProvider
-          url="http://192.168.1.106:8000"
+          url="http://192.168.4.102:8000"
           opts={{
             query: {
               userId: 'op_user_1',

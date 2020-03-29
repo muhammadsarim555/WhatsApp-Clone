@@ -4,7 +4,7 @@ import {SocketIOProvider, useSocket} from 'use-socketio';
 import {TouchableOpacity, View} from 'react-native';
 
 import {Icon} from 'galio-framework';
-import styles from './chatstyle';
+import styles from './chatStyle';
 import ImagePicker from 'react-native-image-crop-picker';
 import axios from 'axios';
 export default function Chat() {
