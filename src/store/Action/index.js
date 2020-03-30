@@ -36,31 +36,19 @@ const onUserRegister = info => {
 };
 
 const onUserLogin = info => {
-  console.log(info, 'from action');
+  console.log(info, 'lord');
   return dispatch => {
     axios
-      .post(`http://192.168.1.105:8000/user/login`, {
-        contact_no: info.phone_no,
-      })
-      .then(response => {
-        // if (response.data) {
+      .get(`http://${API_URL}:8000/user/login?contact_no=${info.phone_no}`)
+      .then(json => {
+        console.log(json.data, 'afrom acton');
         dispatch({
           type: actionTypes.CURRENTUSER,
-          payload: response.data,
+          payload: json.data,
           networkRequest: true,
         });
-        // } else {
-        //   dispatch({
-        //     type: actionTypes.CURRENTUSER,
-        //     payload: json.data,
-        //     networkRequest: true,
-        //   });
-        // }
       })
-
-      .catch(error => {
-        console.log(error.response.data, 'errpr');
-      });
+      .catch(e => console.log(e, 'from action'));
   };
 };
 
@@ -73,4 +61,13 @@ const addNumber = info => {
   };
 };
 
-export {onUserRegister, onUserLogin, addNumber};
+const verifyUser = info => {
+  return dispatch => {
+    dispatch({
+      type: actionTypes.VERIFIEDUSER,
+      payload: info.verifiedUser,
+    });
+  };
+};
+
+export {onUserRegister, onUserLogin, addNumber, verifyUser};

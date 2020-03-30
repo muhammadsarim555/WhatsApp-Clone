@@ -10,6 +10,7 @@ import {
 
 import PhoneNumberPicker from 'react-native-country-code-telephone-input';
 import firebase from 'react-native-firebase';
+import {useSelector} from 'react-redux';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
@@ -18,7 +19,7 @@ import {store} from '../../store';
 
 import LottieView from 'lottie-react-native';
 
-import {onUserLogin} from '../../store/Action';
+import {onUserLogin, verifyUser} from '../../store/Action';
 
 function Login({navigation}) {
   const [countryName, setcountryName] = useState('');
@@ -31,12 +32,11 @@ function Login({navigation}) {
     setphoneNo(phoneNumber);
   }
 
-  function onLoginButtonPress(props, number, code) {
+  function onLoginButtonPress() {
     firebase
       .auth()
       .signInWithPhoneNumber(`+${callingCode}${phoneNo}`)
       .then(confirmResult => {
-        //
         navigation.navigate('Verification', {confirmResult});
 
         firebase
@@ -46,10 +46,6 @@ function Login({navigation}) {
             'state_changed',
             phoneAuthSnapshot => {
               phoneAuthSnapshot.error &&
-                // Alert.alert(
-                //   phoneAuthSnapshot.error.code,
-                //   phoneAuthSnapshot.error.nativeErrorMessage,
-                // );
                 console.log(phoneAuthSnapshot.error, 'error');
 
               // How you handle these state events is entirely up to your ui flow and whether
@@ -61,10 +57,6 @@ function Login({navigation}) {
                 //  IOS AND ANDROID EVENTS
                 // ------------------------
                 case firebase.auth.PhoneAuthState.CODE_SENT: // or 'sent'
-                  // this.props.navigation.navigate('Verification', {
-                  //   confirmResult: confirmResult,
-                  // });
-
                   break;
                 case firebase.auth.PhoneAuthState.ERROR: // or 'error'
                   console.log('verification error');
@@ -78,12 +70,14 @@ function Login({navigation}) {
                   console.log('auto verify on android timed out');
                   break;
                 case firebase.auth.PhoneAuthState.AUTO_VERIFIED: // or 'verified'
-                  console.log('auto verified on android');
-                  // navigation.navigate('Verification');
-
-                  setTimeout(() => {
-                    onUserLogin({phone_no: `+${callingCode}${phoneNo}`});
-                  }, 3000);
+                  store.dispatch(verifyUser({verifiedUser: true}));
+                  // setTimeout(() => {
+                    store.dispatch(
+                      onUserLogin({phone_no: `+${callingCode}${phoneNo}`}),
+                    );
+                    // onUserLogin
+                    // navigation.navigate('Loader');
+                  // }, 3000);
                   break;
               }
             },
@@ -91,8 +85,7 @@ function Login({navigation}) {
               console.log(error, 'fromerror');
               console.log(error.verificationId);
             },
-            phoneAuthSnapshot => {
-            },
+            phoneAuthSnapshot => {},
           );
 
         store.dispatch(addNumber({phone_no: `+${callingCode}${phoneNo}`}));
@@ -135,9 +128,7 @@ function Login({navigation}) {
           </View>
           <TouchableOpacity
             style={styles.btnContainer}
-            // onPress={() => onLoginButtonPress()}
-            onPress={() => onUserLogin({phone_no: `+923172142662`})}
-          >
+            onPress={() => onLoginButtonPress()}>
             <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>
         </View>

@@ -22,7 +22,9 @@ const {width, height} = Dimensions.get('window');
 function Verification({route, navigation}) {
   const getUpdateProps = useSelector(prop => prop.auth);
 
-  getUpdateProps.user ? navigation.navigate('Home') : null;
+  getUpdateProps.user.contact_no && getUpdateProps.auth?.verifiedUser
+    ? navigation.navigate('Home')
+    : navigation.navigate('Loader');
 
   function _onFulfill(code) {
     const {confirmResult} = route.params;
@@ -60,7 +62,7 @@ function Verification({route, navigation}) {
           console.log(error, 'while logigin');
         });
     } else {
-      alert('Correct Right Code!');
+      alert('Please Correct Right Code!');
     }
 
     console.log(code, '><><><><');
