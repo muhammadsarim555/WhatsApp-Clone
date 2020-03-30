@@ -25,15 +25,11 @@ function Home({navigation}) {
       message: 'This app would like to view your contacts.',
       buttonPositive: 'Please accept bare mortal',
     }).then(e => {
-      // console.log(e);
       try {
         Contacts.getAll((err, contacts) => {
           if (err === 'denied') {
-            console.log('denide');
           } else {
             setAllMobileUsers(contacts);
-
-            console.log(contacts[6], '<<>');
           }
         });
       } catch (err) {
@@ -84,7 +80,10 @@ function Home({navigation}) {
   }
 
   return (
-    <CustomComponents.Footer navigation={navigation} screen="New Chat" tab="Home">
+    <CustomComponents.Footer
+      navigation={navigation}
+      screen="New Chat"
+      tab="Home">
       <View style={{flex: 1}}>
         <FlatList
           extraData={allMobileUsers}

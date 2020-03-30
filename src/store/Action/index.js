@@ -36,19 +36,31 @@ const onUserRegister = info => {
 };
 
 const onUserLogin = info => {
-  // .get(`http://${API_URL}/user/login?contact_no=${info.phone_no}`)
+  console.log(info, 'from action');
   return dispatch => {
     axios
-      .get(`http://192.168.1.106:8000/user/login?contact_no=923172142662`)
-      .then(json => {
-        console.log(json.data, 'afrom acton');
+      .post(`http://192.168.1.105:8000/user/login`, {
+        contact_no: info.phone_no,
+      })
+      .then(response => {
+        // if (response.data) {
         dispatch({
           type: actionTypes.CURRENTUSER,
-          payload: json.data,
+          payload: response.data,
           networkRequest: true,
         });
+        // } else {
+        //   dispatch({
+        //     type: actionTypes.CURRENTUSER,
+        //     payload: json.data,
+        //     networkRequest: true,
+        //   });
+        // }
       })
-      .catch(e => console.log(e, 'from action'));
+
+      .catch(error => {
+        console.log(error.response.data, 'errpr');
+      });
   };
 };
 

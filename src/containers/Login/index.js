@@ -15,6 +15,9 @@ import styles from './style';
 import {CustomComponents} from '../../components/index';
 import {addNumber} from '../../store/Action';
 import {store} from '../../store';
+
+import LottieView from 'lottie-react-native';
+
 import {onUserLogin} from '../../store/Action';
 
 function Login({navigation}) {
@@ -58,7 +61,6 @@ function Login({navigation}) {
                 //  IOS AND ANDROID EVENTS
                 // ------------------------
                 case firebase.auth.PhoneAuthState.CODE_SENT: // or 'sent'
-                  console.log('code sent');
                   // this.props.navigation.navigate('Verification', {
                   //   confirmResult: confirmResult,
                   // });
@@ -78,24 +80,10 @@ function Login({navigation}) {
                 case firebase.auth.PhoneAuthState.AUTO_VERIFIED: // or 'verified'
                   console.log('auto verified on android');
                   // navigation.navigate('Verification');
-                  onUserLogin({phone_no: '923172142662'});
 
-                  // setTimeout(() => {
-                  //   if (response.data.status === 'login successfuly') {
-                  //     store.dispatch(
-                  //       onGoogleLoginSuccess(response.data.current_user[0]),
-                  //     );
-                  //     props.navigation.navigate('AuthLoading');
-                  //   } else {
-                  //     store.dispatch(
-                  //       onGoogleLoginSuccess({
-                  //         phone: number,
-                  //       }),
-                  //     );
-                  //     props.navigation.navigate('AddDetail');
-                  //   }
-                  // }, 3000);
-
+                  setTimeout(() => {
+                    onUserLogin({phone_no: `+${callingCode}${phoneNo}`});
+                  }, 3000);
                   break;
               }
             },
@@ -104,7 +92,6 @@ function Login({navigation}) {
               console.log(error.verificationId);
             },
             phoneAuthSnapshot => {
-              console.log(phoneAuthSnapshot, 'working auto verified');
             },
           );
 
@@ -148,8 +135,8 @@ function Login({navigation}) {
           </View>
           <TouchableOpacity
             style={styles.btnContainer}
-            onPress={() => onLoginButtonPress()}
-            // onPress={() => store.dispatch(onUserRegister(1223))}
+            // onPress={() => onLoginButtonPress()}
+            onPress={() => onUserLogin({phone_no: `+923172142662`})}
           >
             <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>

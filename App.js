@@ -5,6 +5,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store';
 
+
 import {CustomComponents} from './src/components';
 import Navigation from './src/navigation';
 import AuthNavigator from './src/navigation/authNavigator';
@@ -21,7 +22,6 @@ function App() {
             },
           }}>
           <Navigation />
-          {/* <CustomComponents.Loader /> */}
         </SocketIOProvider>
       </PersistGate>
     </Provider>
