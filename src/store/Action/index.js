@@ -8,8 +8,7 @@ const onUserRegister = info => {
     let formData = new FormData();
 
     formData.append('first_name', info.userName);
-    // formData.append('contact_no', info.phone_no);
-    formData.append('contact_no', '923172142662');
+    formData.append('contact_no', info.phone_no);
     formData.append('avatar', info.userAvatar);
 
     axios
