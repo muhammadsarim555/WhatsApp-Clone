@@ -10,7 +10,6 @@ import {
 
 import PhoneNumberPicker from 'react-native-country-code-telephone-input';
 import firebase from 'react-native-firebase';
-import {useSelector} from 'react-redux';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
@@ -23,8 +22,10 @@ import {onUserLogin, verifyUser} from '../../store/Action';
 
 function Login({navigation}) {
   const [countryName, setcountryName] = useState('');
-  const [callingCode, setcallingCode] = useState('');
-  const [phoneNo, setphoneNo] = useState('');
+  const [callingCode, setcallingCode] = useState('92');
+  const [phoneNo, setphoneNo] = useState('3172142662');
+
+  const {dispatch} = store;
 
   function PhoneNumberPickerChanged(country, callingCode, phoneNumber) {
     setcountryName(country.name);
@@ -70,13 +71,10 @@ function Login({navigation}) {
                   console.log('auto verify on android timed out');
                   break;
                 case firebase.auth.PhoneAuthState.AUTO_VERIFIED: // or 'verified'
-                  store.dispatch(verifyUser({verifiedUser: true}));
-                    store.dispatch(
-                      onUserLogin({phone_no: `+${callingCode}${phoneNo}`}),
-                    );
-                    // onUserLogin
-                    // navigation.navigate('Loader');
-                  // }, 3000);
+                  dispatch(verifyUser({verifiedUser: true}));
+                  dispatch(
+                    onUserLogin({phone_no: `+${callingCode}${phoneNo}`}),
+                  );
                   break;
               }
             },
@@ -87,7 +85,7 @@ function Login({navigation}) {
             phoneAuthSnapshot => {},
           );
 
-        store.dispatch(addNumber({phone_no: `+${callingCode}${phoneNo}`}));
+        dispatch(addNumber({phone_no: `+${callingCode}${phoneNo}`}));
       })
       .catch(e => {
         console.log('error =>', e);

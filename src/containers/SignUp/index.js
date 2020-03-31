@@ -18,23 +18,31 @@ import {CustomComponents} from '../../components/index';
 import {store} from '../../store';
 import {onUserRegister} from '../../store/Action';
 
-function SignUp({navigation}) {
+function SignUp({route, navigation}) {
   const [userName, setUserName] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
+  const [userPhoneNumber, setUserPhoneNumber] = useState('');
+
+  const getUpdateProps = useSelector(prop => prop.auth);
+
+  getUpdateProps?.user?.contact_no && navigation.navigate('Home');
+
+  useEffect(() => {
+    console.log(route.params, 'params');
+
+    getUpdateProps.user?.phone_no &&
+      setUserPhoneNumber(getUpdateProps.user?.phone_no);
+  }, [userPhoneNumber]);
 
   function onSignUp() {
     store.dispatch(
       onUserRegister({
         userName,
         userAvatar,
-        phone_no: store.getState().auth.user.phone_no,
+        phone_no: userPhoneNumber,
       }),
     );
   }
-
-  const getUpdateProps = useSelector(prop => prop.auth);
-
-  // getUpdateProps.user ? navigation.navigate('Home') : null;
 
   function addAvatar() {
     ImagePicker.openPicker({

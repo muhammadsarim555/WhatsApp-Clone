@@ -4,6 +4,8 @@ import {API_URL} from '../../config/apiConfig';
 import axios from 'react-native-axios';
 
 const onUserRegister = info => {
+  console.log(info,"onregister")
+
   return dispatch => {
     let formData = new FormData();
 
@@ -23,29 +25,49 @@ const onUserRegister = info => {
         },
       )
       .then(json => {
-        console.log(json.data, 'afrom acton');
+        console.log('onUserRegister => ', json.data);
+        if (json.data == 'User Has Not Registered!') {
+          dispatch({
+            type: actionTypes.MEESSAGEFROMSERVER,
+            payload: json.data,
+            networkRequest: true,
+          });
+        } else {
+          dispatch({
+            type: actionTypes.CURRENTUSER,
+            payload: json.data,
+            networkRequest: true,
+          });
+        }
+      })
+      .catch(e =>
         dispatch({
-          type: actionTypes.CURRENTUSER,
+          type: actionTypes.MEESSAGEFROMSERVER,
           payload: json.data,
           networkRequest: true,
-        });
-      })
-      .catch(e => console.log(e, 'from action'));
+        }),
+      );
   };
 };
 
 const onUserLogin = info => {
-  console.log(info, 'lord');
   return dispatch => {
     axios
       .get(`http://${API_URL}:8000/user/login?contact_no=${info.phone_no}`)
       .then(json => {
-        console.log(json.data, 'afrom acton');
-        dispatch({
-          type: actionTypes.CURRENTUSER,
-          payload: json.data,
-          networkRequest: true,
-        });
+        if (json.data == 'User Has Not Registered!') {
+          dispatch({
+            type: actionTypes.MEESSAGEFROMSERVER,
+            payload: json.data,
+            networkRequest: true,
+          });
+        } else {
+          dispatch({
+            type: actionTypes.CURRENTUSER,
+            payload: json.data,
+            networkRequest: true,
+          });
+        }
       })
       .catch(e => console.log(e, 'from action'));
   };
@@ -63,8 +85,8 @@ const addNumber = info => {
 const verifyUser = info => {
   return dispatch => {
     dispatch({
-      type: actionTypes.VERIFIEDUSER,
-      payload: info.verifiedUser,
+      type: actionTypes.VERIFYUSER,
+      verifiedUser: info.verifiedUser,
     });
   };
 };
@@ -72,7 +94,7 @@ const verifyUser = info => {
 const onUserLogout = () => {
   return dispatch => {
     dispatch({
-      type: actionTypes.LOGOUTUSER
+      type: actionTypes.LOGOUTUSER,
     });
   };
 };

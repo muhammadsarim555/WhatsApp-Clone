@@ -20,14 +20,25 @@ import {CustomComponents} from '../../components/index';
 const {width, height} = Dimensions.get('window');
 
 function Verification({route, navigation}) {
+  const [number, setNumber] = useState('');
+
   const getUpdateProps = useSelector(prop => prop.auth);
 
-  if (getUpdateProps?.user?.contact_no) {
-    navigation.navigate('Home');
-    console.log(JSON.stringify(getUpdateProps) , "from verirification");
-  } else {
-    console.log(JSON.stringify(getUpdateProps) , "else v");
-  }
+  console.log(getUpdateProps?.user?.phone_no, 'free1');
+  console.log(getUpdateProps?.verifiedUser, 'free2');
+
+  getUpdateProps?.user?.contact_no
+    ? navigation.navigate('Home')
+    : (getUpdateProps?.user?.phone_no && getUpdateProps?.verifiedUser) ||
+      getUpdateProps?.message == 'User Has Not Registered!'
+    ? navigation.navigate('SignUp', {phone_no: number})
+    : null;
+
+  useEffect(() => {
+    getUpdateProps?.user?.phone_no && setNumber(getUpdateProps?.user?.phone_no);
+  }, [number]);
+
+  console.log(number ,"number")
 
   function _onFulfill(code) {
     const {confirmResult} = route.params;

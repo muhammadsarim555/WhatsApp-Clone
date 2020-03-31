@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   user: [],
   networkRequest: false,
   verifiedUser: false,
+  message: '',
+  userNumber: '',
 };
 
 const AuthReducer = (state = INITIAL_STATE, action) => {
@@ -14,17 +16,24 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
         user: action.payload,
         networkRequest: action.networkRequest,
       };
-    case actionTypes.VERIFIEDUSER:
+    case actionTypes.VERIFYUSER:
       return {
         ...INITIAL_STATE,
-        verifiedUser: action.payload,
+        verifiedUser: action.verifiedUser,
       };
     case actionTypes.LOGOUTUSER:
       return {
         ...INITIAL_STATE,
         user: [],
+        networkRequest: false,
+        verifiedUser: false,
+        message: '',
       };
-
+    case actionTypes.MEESSAGEFROMSERVER:
+      return {
+        ...INITIAL_STATE,
+        message: action.payload,
+      };
     default:
       return state;
   }
