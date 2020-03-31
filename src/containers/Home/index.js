@@ -70,10 +70,6 @@ function Home({navigation}) {
               </Text>
             </View>
           </View>
-          {/* <Image
-            style={[styles.icon, {marginRight: 50}]}
-            source={{uri: callIcon}}
-          /> */}
         </View>
       </TouchableOpacity>
     );

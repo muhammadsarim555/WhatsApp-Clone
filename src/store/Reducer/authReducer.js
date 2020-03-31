@@ -1,6 +1,5 @@
 import * as actionTypes from '../Action/actionTypes';
 
-
 const INITIAL_STATE = {
   user: [],
   networkRequest: false,
@@ -19,6 +18,11 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
         verifiedUser: action.payload,
+      };
+    case actionTypes.LOGOUTUSER:
+      return {
+        ...INITIAL_STATE,
+        user: [],
       };
 
     default:

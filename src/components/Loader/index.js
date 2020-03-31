@@ -12,7 +12,7 @@ export default function Loader({navigation}) {
   useEffect(() => {
     const {user} = store.getState().auth;
 
-    if (user?.phone_no) {
+    if (user?.phone_no && store.getState()?.auth?.verifiedUser) {
       navigation.navigate('SignUp');
     } else if (user?.contact_no) navigation.navigate('Home');
     else {

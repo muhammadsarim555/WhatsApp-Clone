@@ -41,7 +41,7 @@ function Login({navigation}) {
 
         firebase
           .auth()
-          .verifyPhoneNumber(`+${callingCode}${phoneNo}`, 120)
+          .verifyPhoneNumber(`+${callingCode}${phoneNo}`)
           .on(
             'state_changed',
             phoneAuthSnapshot => {
@@ -71,7 +71,6 @@ function Login({navigation}) {
                   break;
                 case firebase.auth.PhoneAuthState.AUTO_VERIFIED: // or 'verified'
                   store.dispatch(verifyUser({verifiedUser: true}));
-                  // setTimeout(() => {
                     store.dispatch(
                       onUserLogin({phone_no: `+${callingCode}${phoneNo}`}),
                     );

@@ -69,4 +69,12 @@ const verifyUser = info => {
   };
 };
 
-export {onUserRegister, onUserLogin, addNumber, verifyUser};
+const onUserLogout = () => {
+  return dispatch => {
+    dispatch({
+      type: actionTypes.LOGOUTUSER
+    });
+  };
+};
+
+export {onUserRegister, onUserLogin, addNumber, verifyUser, onUserLogout};

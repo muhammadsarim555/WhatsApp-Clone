@@ -22,9 +22,12 @@ const {width, height} = Dimensions.get('window');
 function Verification({route, navigation}) {
   const getUpdateProps = useSelector(prop => prop.auth);
 
-  getUpdateProps.user.contact_no && getUpdateProps.auth?.verifiedUser
-    ? navigation.navigate('Home')
-    : navigation.navigate('Loader');
+  if (getUpdateProps?.user?.contact_no) {
+    navigation.navigate('Home');
+    console.log(JSON.stringify(getUpdateProps) , "from verirification");
+  } else {
+    console.log(JSON.stringify(getUpdateProps) , "else v");
+  }
 
   function _onFulfill(code) {
     const {confirmResult} = route.params;
@@ -34,28 +37,10 @@ function Verification({route, navigation}) {
       confirmResult
         .confirm(otp)
         .then(user => {
-          console.log('User Has Logged In!', user);
-          // axios
-          //   .post(`http://deaplearning.com/admin/app/api/t/user/login`, {
-          //     u_id: user._user.phoneNumber,
-          //     phone: user._user.phoneNumber,
-          //     push_token: this.state.pushToken
-          //   })
-          //   .then(response => {
-          //     if (response.data.status === 'login failed') {
-          //       store.dispatch(
-          //         onGoogleLoginSuccess({phone: user._user.phoneNumber}),
-          //       );
-          //       this.loadingButton.showLoading(false);
-          //       props.navigation.navigate('AddDetail');
-          //     } else {
-          //       store.dispatch(
-          //         onGoogleLoginSuccess(response.data.current_user[0]),
-          //       );
-          //       this.loadingButton.showLoading(false);
-          //       props.navigation.navigate('AuthLoading');
-          //     }
-          //   });
+          console.log('User Has Logged In!', getUpdateProps);
+
+          // store.dispatch(verifyUser({verifiedUser: true}));
+          // store.dispatch(onUserLogin({phone_no: `+${callingCode}${phoneNo}`}));
         })
 
         .catch(error => {
