@@ -15,25 +15,78 @@ import Contacts from 'react-native-contacts';
 
 import styles from './style';
 import {CustomComponents} from '../../components';
+import axios from 'react-native-axios';
+import {API_URL} from '../../config/apiConfig';
 
 function Home({navigation}) {
   const [allMobileUsers, setAllMobileUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  function fetchData(contacts) {
+    // let final = [];
+    contacts.map((v, i) => {
+      axios
+        .get(
+          `http://${API_URL}:8000/user/login?contact_no=${v.phoneNumbers
+            .length !== 0 && v.phoneNumbers[0].number}&contact_exist=true`,
+        )
+        .then(json => {
+          if (
+            json.data == 'User Has Not Registered!'
+            //  ||
+            // (json.data !== null &&
+            //   json.data !== false &&
+            //   json.data !== undefined)
+          ) {
+            contacts[i].isUser = false;
+            // final.push(contacts[i]);
+          } else {
+            contacts[i].isUser = json.data;
+            // final.push(contacts[i]);
+            console.log('push', json.data, i );
+          }
+        })
+        .catch(err => console.log(err.message));
+
+      // let json = axios.get(
+      //   `http://${API_URL}:8000/user/login?contact_no=${v.phoneNumbers
+      //     .length !== 0 && v.phoneNumbers[0].number}&contact_exist=true`,
+      // );
+      // if (
+      //   json.data == 'User Has Not Registered!' ||
+      //   (json.data !== null &&
+      //     json.data !== false &&
+      //     json.data !== undefined)
+      // ) {
+      //   contacts[i].isUser = false;
+      //   final.push(contacts[i]);
+      // } else {
+      //   consol.log("push", json.data)
+      //   contacts[i].isUser = json.data;
+      //   final.push(contacts[i]);
+      // }
+    });
+    // if (final.length === contacts) {
+    // console.log('hi');
+    return contacts.sort((a, b) => a.isUser - b.isUser);
+    // }
+  }
   useEffect(() => {
     PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
       title: 'Contacts',
       message: 'This app would like to view your contacts.',
       buttonPositive: 'Please accept bare mortal',
     }).then(e => {
-      // console.log(e);
       try {
         Contacts.getAll((err, contacts) => {
           if (err === 'denied') {
-            console.log('denide');
           } else {
-            setAllMobileUsers(contacts);
+            // setLoading(true);
 
-            console.log(contacts[6], '<<>');
+            // if (fetchData(contacts).length === contacts.length) {
+              setAllMobileUsers(fetchData(contacts));
+              // setLoading(false);
+            // }
           }
         });
       } catch (err) {
@@ -43,23 +96,48 @@ function Home({navigation}) {
   }, []);
 
   function renderItem({item}) {
+    // const [user, setUser] = React.useState(null);
     var defaultImage = 'https://bootdey.com/img/Content/avatar/avatar4.png';
-    var callIcon = 'https://img.icons8.com/color/48/000000/phone.png';
     if (item.video == true) {
       callIcon = 'https://img.icons8.com/color/48/000000/video-call.png';
     }
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate('ChatRoom')}>
-        <View style={styles.row}>
-          <View style={styles.avatarBackground}>
-            <Image source={{uri: defaultImage}} style={styles.pic} />
-          </View>
-          <View>
-            <View style={styles.nameContainer}>
-              <Text style={styles.nameTxt}>{item.displayName}</Text>
-              <View style={styles.activeCircle} />
+
+    // React.useEffect(() => {
+
+    // });
+
+    if (
+      item.isUser !== null &&
+      item.isUser !== false &&
+      item.isUser !== undefined
+    ) {
+      // console.log(
+      //   item.isUser !== null,
+      //   item.isUser !== false,
+      //   item.displayName,
+      //   item.isUser,
+      // );
+      return (
+        <TouchableOpacity onPress={() => navigation.navigate('ChatRoom')}>
+          <View style={styles.row}>
+            <View style={styles.avatarBackground}>
+              <Image source={{uri: defaultImage}} style={styles.pic} />
             </View>
-            <View style={styles.end}>
+            <View>
+              <View style={styles.nameContainer}>
+                <Text style={styles.nameTxt}>{item.displayName}</Text>
+                {/* <View style={styles.activeCircle} /> */}
+              </View>
+              <View style={styles.end}>
+                <Text style={styles.nameTxt}>
+                  {item.phoneNumbers.length !== 0 &&
+                    item.phoneNumbers[0].number}{' '}
+                  {item.isUser !== null && item.isUser === false
+                    ? 'invite'
+                    : ''}
+                </Text>
+              </View>
+              {/* <View style={styles.end}>
               <Image
                 style={[
                   styles.icon,
@@ -72,20 +150,23 @@ function Home({navigation}) {
               <Text style={styles.time}>
                 {item.date} {item.time}
               </Text>
+            </View> */}
             </View>
           </View>
-          {/* <Image
-            style={[styles.icon, {marginRight: 50}]}
-            source={{uri: callIcon}}
-          /> */}
-        </View>
-      </TouchableOpacity>
-    );
+        </TouchableOpacity>
+      );
+    } else {
+      return <View />;
+    }
   }
 
   return (
-    <CustomComponents.Footer navigation={navigation} screen="New Chat" tab="Home">
+    <CustomComponents.Footer
+      navigation={navigation}
+      screen="New Chat"
+      tab="Home">
       <View style={{flex: 1}}>
+        {/* <Text>{loading + 'desu' + allMobileUsers.length}</Text> */}
         <FlatList
           extraData={allMobileUsers}
           data={allMobileUsers}
