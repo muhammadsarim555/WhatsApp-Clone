@@ -12,36 +12,59 @@ import AddIcon from 'react-native-vector-icons/MaterialIcons';
 import {TextInput} from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
 import {useSelector} from 'react-redux';
+import {API_URL} from '../../config/apiConfig';
+
+import axios from 'react-native-axios';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
 import {store} from '../../store';
-import {onUserRegister} from '../../store/Action';
+import {onUserRegister, onUserLoginSuccess} from '../../store/Action';
 
 function SignUp({route, navigation}) {
   const [userName, setUserName] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
   const [userPhoneNumber, setUserPhoneNumber] = useState('');
 
-  const getUpdateProps = useSelector(prop => prop.auth);
-
-  getUpdateProps?.user?.contact_no && navigation.navigate('Home');
+  // const getUpdateProps = useSelector(prop => prop.auth);
 
   useEffect(() => {
-    console.log(route.params, 'params');
-
-    getUpdateProps.user?.phone_no &&
-      setUserPhoneNumber(getUpdateProps.user?.phone_no);
-  }, [userPhoneNumber]);
+    store.subscribe(() => {
+      navigation.navigate('Loader');
+    });
+  });
 
   function onSignUp() {
-    store.dispatch(
-      onUserRegister({
-        userName,
-        userAvatar,
-        phone_no: userPhoneNumber,
-      }),
-    );
+    // store.dispatch(
+    //   onUserRegister({
+    //     userName,
+    //     userAvatar,
+    //     phone_no: store.getState().auth?.testUser.phone_no,
+    //   }),
+    // );
+
+    let formData = new FormData();
+
+    formData.append('first_name', userName);
+    formData.append('contact_no', store.getState().auth?.testUser.phone_no);
+    formData.append('avatar', userAvatar);
+
+    axios
+      .post(
+        `http://${API_URL}:8000/user/add_user`,
+        formData,
+
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+      .then(json => {
+        store.dispatch(onUserLoginSuccess(json.data));
+        navigation.navigate('Home');
+      })
+      .catch(e => console.log(e));
   }
 
   function addAvatar() {

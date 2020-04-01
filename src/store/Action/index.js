@@ -2,9 +2,10 @@ import * as actionTypes from './actionTypes';
 import {API_URL} from '../../config/apiConfig';
 
 import axios from 'react-native-axios';
+import {store} from '../index';
 
 const onUserRegister = info => {
-  console.log(info,"onregister")
+  console.log(info, 'aksaryat');
 
   return dispatch => {
     let formData = new FormData();
@@ -73,10 +74,19 @@ const onUserLogin = info => {
   };
 };
 
-const addNumber = info => {
+const onUserLoginSuccess = (info) => {
   return dispatch => {
     dispatch({
       type: actionTypes.CURRENTUSER,
+      payload: info,
+    });
+  };
+};
+
+const addNumber = info => {
+  return dispatch => {
+    dispatch({
+      type: 'TESTUSER',
       payload: info,
     });
   };
@@ -99,4 +109,11 @@ const onUserLogout = () => {
   };
 };
 
-export {onUserRegister, onUserLogin, addNumber, verifyUser, onUserLogout};
+export {
+  onUserRegister,
+  onUserLogin,
+  addNumber,
+  verifyUser,
+  onUserLogout,
+  onUserLoginSuccess,
+};

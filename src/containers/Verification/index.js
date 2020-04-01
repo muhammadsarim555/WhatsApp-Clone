@@ -10,8 +10,10 @@ import {
 
 import CodeInput from 'react-native-confirmation-code-input';
 import {useRoute} from '@react-navigation/native';
+import axios from 'react-native-axios';
 import {useSelector} from 'react-redux';
 
+import {API_URL} from '../../config/apiConfig';
 import styles from './style';
 import {store} from '../../store';
 import {onUserLogin} from '../../store/Action';
@@ -22,36 +24,60 @@ const {width, height} = Dimensions.get('window');
 function Verification({route, navigation}) {
   const [number, setNumber] = useState('');
 
-  const getUpdateProps = useSelector(prop => prop.auth);
+  // const getUpdateProps = useSelector(prop => prop.auth);
 
-  console.log(getUpdateProps?.user?.phone_no, 'free1');
-  console.log(getUpdateProps?.verifiedUser, 'free2');
+  // console.log(getUpdateProps?.user?.phone_no, 'free1');
+  // console.log(getUpdateProps?.verifiedUser, 'free2');
 
-  getUpdateProps?.user?.contact_no
-    ? navigation.navigate('Home')
-    : (getUpdateProps?.user?.phone_no && getUpdateProps?.verifiedUser) ||
-      getUpdateProps?.message == 'User Has Not Registered!'
-    ? navigation.navigate('SignUp', {phone_no: number})
-    : null;
+  // getUpdateProps?.user?.contact_no
+  //   ? navigation.navigate('Home')
+  //   : (getUpdateProps?.user?.phone_no && getUpdateProps?.verifiedUser) ||
+  //     getUpdateProps?.message == 'User Has Not Registered!'
+  //   ? navigation.navigate('SignUp', {phone_no: number})
+  //   : null;
 
   useEffect(() => {
-    getUpdateProps?.user?.phone_no && setNumber(getUpdateProps?.user?.phone_no);
-  }, [number]);
+    // getUpdateProps?.user?.phone_no && setNumber(getUpdateProps?.user?.phone_no);
 
-  console.log(number ,"number")
+    store.subscribe(() => {
+      const {phone_no, verifiedUser} = store.getState().auth?.testUser;
+
+      // phone_no &&
+      // verifiedUser &&
+      // store.dispatch(onUserLogin(store.getState().auth?.testUser));
+      // console.log(store.getState().auth.message, "workingfh")
+      // store.getState().auth?.testUser?.phone_no &&
+      //   store.getState().auth?.testUser?.verifiedUser &&
+      // navigation.navigate('SignUp');
+    });
+  });
 
   function _onFulfill(code) {
     const {confirmResult} = route.params;
     let otp = code;
 
+    console.log(store.getState().auth?.testUser?.phone_no, 'verify');
+
+    const userNumber = store.getState().auth?.testUser?.phone_no;
+
+    console.log("userNumber",userNumber)
+
     if (confirmResult && otp) {
       confirmResult
         .confirm(otp)
         .then(user => {
-          console.log('User Has Logged In!', getUpdateProps);
-
-          // store.dispatch(verifyUser({verifiedUser: true}));
-          // store.dispatch(onUserLogin({phone_no: `+${callingCode}${phoneNo}`}));
+          axios
+            .get(`http://${API_URL}:8000/user/login?contact_no=${userNumber}`)
+            .then(json => {
+              if (json.data == 'User Has Not Registered!') {
+                navigation.navigate('SignUp');
+              } else {
+                navigation.navigate('Home');
+                store.dispatch(onUserLoginSuccess(json.data));
+                store.dispatch(verifyUser({verifiedUser: true}));
+              }
+            })
+            .catch(e => console.log(e, 'something'));
         })
 
         .catch(error => {

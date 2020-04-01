@@ -2,6 +2,7 @@ import * as actionTypes from '../Action/actionTypes';
 
 const INITIAL_STATE = {
   user: [],
+  testUser: [],
   networkRequest: false,
   verifiedUser: false,
   message: '',
@@ -14,6 +15,12 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
         user: action.payload,
+        networkRequest: action.networkRequest,
+      };
+    case 'TESTUSER':
+      return {
+        ...INITIAL_STATE,
+        testUser: action.payload,
         networkRequest: action.networkRequest,
       };
     case actionTypes.VERIFYUSER:
@@ -33,6 +40,11 @@ const AuthReducer = (state = INITIAL_STATE, action) => {
       return {
         ...INITIAL_STATE,
         message: action.payload,
+      };
+    case actionTypes.USERNUMBER:
+      return {
+        ...INITIAL_STATE,
+        userNumber: action.payload,
       };
     default:
       return state;

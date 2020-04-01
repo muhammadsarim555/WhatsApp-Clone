@@ -10,10 +10,11 @@ import {
 
 import PhoneNumberPicker from 'react-native-country-code-telephone-input';
 import firebase from 'react-native-firebase';
+import axios from 'react-native-axios';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
-import {addNumber} from '../../store/Action';
+import {addNumber, onUserLoginSuccess} from '../../store/Action';
 import {store} from '../../store';
 
 import LottieView from 'lottie-react-native';
@@ -22,10 +23,8 @@ import {onUserLogin, verifyUser} from '../../store/Action';
 
 function Login({navigation}) {
   const [countryName, setcountryName] = useState('');
-  const [callingCode, setcallingCode] = useState('92');
-  const [phoneNo, setphoneNo] = useState('3172142662');
-
-  const {dispatch} = store;
+  const [callingCode, setcallingCode] = useState('');
+  const [phoneNo, setphoneNo] = useState('');
 
   function PhoneNumberPickerChanged(country, callingCode, phoneNumber) {
     setcountryName(country.name);
@@ -42,7 +41,7 @@ function Login({navigation}) {
 
         firebase
           .auth()
-          .verifyPhoneNumber(`+${callingCode}${phoneNo}`)
+          .verifyPhoneNumber(`+${callingCode}${phoneNo}`, 120)
           .on(
             'state_changed',
             phoneAuthSnapshot => {
@@ -71,10 +70,27 @@ function Login({navigation}) {
                   console.log('auto verify on android timed out');
                   break;
                 case firebase.auth.PhoneAuthState.AUTO_VERIFIED: // or 'verified'
-                  dispatch(verifyUser({verifiedUser: true}));
-                  dispatch(
-                    onUserLogin({phone_no: `+${callingCode}${phoneNo}`}),
+                  let userNumber = `+${callingCode}${phoneNo}`;
+
+                  store.dispatch(
+                    addNumber({
+                      phone_no: `+${callingCode}${phoneNo}`,
+                      verifiedUser: true,
+                    }),
                   );
+                  axios
+                    .get(
+                      `http://192.168.1.102:8000/user/login?contact_no=${userNumber}`,
+                    )
+                    .then(json => {
+                      if (json.data == 'User Has Not Registered!') {
+                        navigation.navigate('SignUp');
+                      } else {
+                        store.dispatch(onUserLoginSuccess(json.data));
+                        navigation.navigate('Home');
+                      }
+                    })
+                    .catch(e => console.log(e, 'something'));
                   break;
               }
             },
@@ -85,7 +101,11 @@ function Login({navigation}) {
             phoneAuthSnapshot => {},
           );
 
-        dispatch(addNumber({phone_no: `+${callingCode}${phoneNo}`}));
+        store.dispatch(
+          addNumber({
+            phone_no: `+${callingCode}${phoneNo}`,
+          }),
+        );
       })
       .catch(e => {
         console.log('error =>', e);
