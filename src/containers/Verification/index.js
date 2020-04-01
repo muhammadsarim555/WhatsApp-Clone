@@ -56,11 +56,14 @@ function Verification({route, navigation}) {
     const {confirmResult} = route.params;
     let otp = code;
 
-    console.log(store.getState().auth?.testUser?.phone_no, 'verify');
-
     const userNumber = store.getState().auth?.testUser?.phone_no;
 
-    console.log("userNumber",userNumber)
+    // axios
+    //   .get(`http://${API_URL}:8000/user/login?contact_no=${userNumber}`)
+    //   .then(json => {
+    //     console.log(json, 'verification');
+    //   })
+    //   .catch(e => console.log(e, 'something'));
 
     if (confirmResult && otp) {
       confirmResult
@@ -86,8 +89,6 @@ function Verification({route, navigation}) {
     } else {
       alert('Please Correct Right Code!');
     }
-
-    console.log(code, '><><><><');
   }
 
   return (
