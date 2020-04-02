@@ -16,7 +16,7 @@ import {useSelector} from 'react-redux';
 import {API_URL} from '../../config/apiConfig';
 import styles from './style';
 import {store} from '../../store';
-import {onUserLogin} from '../../store/Action';
+import {onUserLogin, onUserLoginSuccess} from '../../store/Action';
 import {CustomComponents} from '../../components/index';
 
 const {width, height} = Dimensions.get('window');
