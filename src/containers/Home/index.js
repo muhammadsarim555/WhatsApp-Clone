@@ -21,7 +21,7 @@ import {API_URL} from '../../config/apiConfig';
 function Home({navigation}) {
   const [allMobileUsers, setAllMobileUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-
+console.log("contact list")
   function fetchData(contacts) {
     // let final = [];
     contacts.map((v, i) => {
