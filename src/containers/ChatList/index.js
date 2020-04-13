@@ -15,147 +15,115 @@ import {useNavigation} from '@react-navigation/native';
 import styles from './style';
 
 import {Icon} from 'galio-framework';
+import {useSocket} from 'use-socketio';
+import {store} from './../../store';
 
+import axios from 'react-native-axios';
+import {API_URL} from '../../config/apiConfig';
 export default function ChatList() {
   const navigation = useNavigation();
-  const [allChats, setAllChats] = useState([
-    {
-      id: 1,
-      name: 'Mark Doe',
-      date: '12 jan',
-      time: '11:14 am',
-      video: false,
-      image: 'https://bootdey.com/img/Content/avatar/avatar7.png',
-    },
-    {
-      id: 2,
-      name: 'Clark Man',
-      date: '12 jul',
-      time: '15:58 am',
-      video: false,
-      image: 'https://bootdey.com/img/Content/avatar/avatar6.png',
-    },
-    {
-      id: 3,
-      name: 'Jaden Boor',
-      date: '12 aug',
-      time: '12:45 am',
-      video: true,
-      image: 'https://bootdey.com/img/Content/avatar/avatar5.png',
-    },
-    {
-      id: 4,
-      name: 'Srick Tree',
-      date: '12 feb',
-      time: '08:32 am',
-      video: false,
-      image: 'https://bootdey.com/img/Content/avatar/avatar4.png',
-    },
-    {
-      id: 5,
-      name: 'John Doe',
-      date: '12 oct',
-      time: '07:45 am',
-      video: true,
-      image: 'https://bootdey.com/img/Content/avatar/avatar3.png',
-    },
-    {
-      id: 6,
-      name: 'John Doe',
-      date: '12 jan',
-      time: '09:54 am',
-      video: false,
-      image: 'https://bootdey.com/img/Content/avatar/avatar2.png',
-    },
-    {
-      id: 8,
-      name: 'John Doe',
-      date: '12 jul',
-      time: '11:22 am',
-      video: true,
-      image: 'https://bootdey.com/img/Content/avatar/avatar1.png',
-    },
-    {
-      id: 9,
-      name: 'John Doe',
-      date: '12 aug',
-      time: '13:33 am',
-      video: false,
-      image: 'https://bootdey.com/img/Content/avatar/avatar4.png',
-    },
-    {
-      id: 10,
-      name: 'John Doe',
-      date: '12 oct',
-      time: '11:58 am',
-      video: true,
-      image: 'https://bootdey.com/img/Content/avatar/avatar7.png',
-    },
-    {
-      id: 11,
-      name: 'John Doe',
-      date: '12 jan',
-      time: '09:28 am',
-      video: false,
-      image: 'https://bootdey.com/img/Content/avatar/avatar1.png',
-    },
-  ]);
-  function renderItem({item}) {
-    // console.log(allMobileUsers, '<all mobile users>');
-    //
-    // allMobileUsers.forEach(element =>
-    //   console.log(allMobileUsers, 'hello khan'),
-    // );
-    var defaultImage = 'https://bootdey.com/img/Content/avatar/avatar4.png';
-    var callIcon = 'https://img.icons8.com/color/48/000000/phone.png';
-    if (item.video == true) {
-      callIcon = 'https://img.icons8.com/color/48/000000/video-call.png';
+  const [user, setUser] = React.useState(store.getState().auth.user._id);
+  const [chatRoom, setChatRoom] = React.useState(null);
+  const {socket} = useSocket();
+  React.useEffect(() => {
+    navigation.addListener('focus', () => {
+      saveToAsyncStorage();
+    });
+    if (user) {
+      socket.on('get_rooms' + user, chatRooms => {
+        console.log('room socket', chatRooms);
+        setChatRoom(
+          chatRooms.sort(
+            (a, b) =>
+              new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
+          ),
+        );
+      });
     }
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate('ChatRoom')}>
-        <View style={styles.row}>
-          <View style={styles.avatarBackground}>
-            <Image source={{uri: defaultImage}} style={styles.pic} />
-          </View>
-          <View style={{flex: 2, flexDirection: 'row'}}>
-            <View style={{flexDirection: 'column'}}>
-              <View style={styles.nameContainer}>
-                <Text style={styles.nameTxt}>{item.name}</Text>
-              </View>
-              <View style={styles.end}>
-                <Icon
-                  name="check"
-                  family="MaterialIcons"
-                  size={16}
-                  style={styles.icon}
-                />
-
-                <Text style={styles.msg}>Hello World</Text>
-              </View>
-            </View>
-          </View>
-          <View style={{flex: 1}}>
-            <Text style={styles.time}>
-              {item.date} {item.time}
-            </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  }
+  }, []);
 
   return (
     <CustomComponents.Footer navigation={navigation} screen="Home" tab="Chats">
       <View style={{flex: 1}}>
         <FlatList
-          extraData={allChats}
-          data={allChats}
+          extraData={chatRoom}
+          data={chatRoom}
           keyExtractor={item => {
             return item.id;
           }}
-          renderItem={renderItem}
+          renderItem={({item}) => <Item item={item} currentUser={user._id} />}
         />
       </View>
     </CustomComponents.Footer>
+  );
+  function saveToAsyncStorage() {
+    axios
+      .get('http://' + API_URL + ':8000' + '/chat/get_my_rooms', {
+        params: {
+          _id: user,
+        },
+      })
+      .then(data => {
+        // console.log(data.data);
+        setChatRoom(data.data);
+      })
+      .catch(err => console.log(err.message));
+  }
+}
+function Item({item, currentUser}) {
+  const navigation = useNavigation();
+  // console.log(item, 'ji Item des');
+  let [otherUser, setOtherUser] = React.useState(
+    item.participant_1._id === currentUser
+      ? item.participant_2
+      : item.participant_1,
+  );
+  const {socket} = useSocket();
+
+  React.useEffect(() => {
+    socket.on('user' + otherUser._id, data => {
+      console.log(data);
+      setOtherUser(data);
+    });
+  }, []);
+
+  var defaultImage = 'https://bootdey.com/img/Content/avatar/avatar4.png';
+  if (item.video == true) {
+    callIcon = 'https://img.icons8.com/color/48/000000/video-call.png';
+  }
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.navigate('ChatRoom', {chatroom_id: item._id})}>
+      <View style={styles.row}>
+        <View style={styles.avatarBackground}>
+          <Image source={{uri: defaultImage}} style={styles.pic} />
+        </View>
+        <View style={{flex: 2, flexDirection: 'row'}}>
+          <View style={{flexDirection: 'column'}}>
+            <View style={styles.nameContainer}>
+              <Text style={styles.nameTxt}>
+                {otherUser.first_name +
+                  ' ' +
+                  (otherUser.last_name ? otherUser.last_name : '')}
+              </Text>
+            </View>
+            <View style={styles.end}>
+              <Icon
+                name="check"
+                family="MaterialIcons"
+                size={16}
+                style={styles.icon}
+              />
+              <Text style={styles.msg}>Hello World</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{flex: 1}}>
+          <Text style={styles.time}>
+            12: 10 14-4-2020
+          </Text>
+        </View>
+      </View>
+    </TouchableOpacity>
   );
 }

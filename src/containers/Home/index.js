@@ -128,11 +128,17 @@ function Home({navigation}) {
       <TouchableOpacity
         onPress={() =>
           item._id
-            ? navigation.navigate('ChatRoom')
+            ? navigation.navigate('ChatRoom', {
+                participant_1: item._id,
+              })
             : alert('User is not part of the app')
         }>
         <View style={styles.row}>
-          <View style={[styles.avatarBackground, {borderColor: item._id ? "blue": "orange"}]}>
+          <View
+            style={[
+              styles.avatarBackground,
+              {borderColor: item._id ? 'blue' : 'orange'},
+            ]}>
             <Image source={{uri: defaultImage}} style={styles.pic} />
           </View>
           <View>
