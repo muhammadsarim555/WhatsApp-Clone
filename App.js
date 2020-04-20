@@ -5,23 +5,26 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import {store, persistor} from './src/store';
 
+import {API_URL} from './src/config/apiConfig';
+
 import {CustomComponents} from './src/components';
 import Navigation from './src/navigation';
 import AuthNavigator from './src/navigation/authNavigator';
 
 function App() {
+  console.disableYellowBox = true;
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SocketIOProvider
-          url="http://192.168.4.102:8000"
+          url={API_URL}
           opts={{
             query: {
               userId: 'op_user_1',
             },
           }}>
           <Navigation />
-          {/* <CustomComponents.Loader /> */}
         </SocketIOProvider>
       </PersistGate>
     </Provider>

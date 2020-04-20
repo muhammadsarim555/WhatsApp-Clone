@@ -5,6 +5,8 @@ import HomeIcon from 'react-native-vector-icons/AntDesign';
 import DotIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import styles from './style';
+import {store} from '../../store';
+import {onUserLogout} from '../../store/Action';
 
 const footerIconSize = 30;
 const headerIconSize = 27;
@@ -64,7 +66,7 @@ function Footer(props) {
               color={screen === 'New Chat' ? '#16D174' : '#B8B8B8'}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => null}>
+          <TouchableOpacity onPress={() => store.dispatch(onUserLogout())}>
             <Icon
               name="person-outline"
               size={footerIconSize}

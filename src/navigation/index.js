@@ -4,6 +4,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 // FILES
 import {Screens} from '../containers';
+import {CustomComponents} from '../components';
 
 const Stack = createStackNavigator();
 
@@ -14,6 +15,10 @@ function Navigation() {
         screenOptions={{
           headerShown: false,
         }}>
+        <Stack.Screen name="Loader" component={CustomComponents.Loader} />
+        <Stack.Screen name="Login" component={Screens.Login} />
+        <Stack.Screen name="SignUp" component={Screens.SignUp} />
+        <Stack.Screen name="Verification" component={Screens.Verification} />
         <Stack.Screen name="ChatList" component={Screens.ChatList} />
         <Stack.Screen name="Home" component={Screens.Home} />
         <Stack.Screen name="CallList" component={Screens.CallList} />

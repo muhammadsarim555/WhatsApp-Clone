@@ -10,13 +10,16 @@ import {
 
 import PhoneNumberPicker from 'react-native-country-code-telephone-input';
 import firebase from 'react-native-firebase';
+import axios from 'react-native-axios';
 
 import styles from './style';
 import {CustomComponents} from '../../components/index';
-import {onUserRegister} from '../../store/Action';
-import {store} from "../../store"
+import {addNumber, onUserLoginSuccess} from '../../store/Action';
+import {store} from '../../store';
 
-const {width, height} = Dimensions.get('window');
+import LottieView from 'lottie-react-native';
+
+import {onUserLogin, verifyUser} from '../../store/Action';
 
 function Login({navigation}) {
   const [countryName, setcountryName] = useState('');
@@ -29,14 +32,11 @@ function Login({navigation}) {
     setphoneNo(phoneNumber);
   }
 
-  function onLoginButtonPress(props, number, code) {
-    console.log(`+${callingCode}${phoneNo}`);
-
+  function onLoginButtonPress() {
     firebase
       .auth()
       .signInWithPhoneNumber(`+${callingCode}${phoneNo}`)
       .then(confirmResult => {
-        //
         navigation.navigate('Verification', {confirmResult});
 
         firebase
@@ -46,10 +46,6 @@ function Login({navigation}) {
             'state_changed',
             phoneAuthSnapshot => {
               phoneAuthSnapshot.error &&
-                // Alert.alert(
-                //   phoneAuthSnapshot.error.code,
-                //   phoneAuthSnapshot.error.nativeErrorMessage,
-                // );
                 console.log(phoneAuthSnapshot.error, 'error');
 
               // How you handle these state events is entirely up to your ui flow and whether
@@ -61,11 +57,6 @@ function Login({navigation}) {
                 //  IOS AND ANDROID EVENTS
                 // ------------------------
                 case firebase.auth.PhoneAuthState.CODE_SENT: // or 'sent'
-                  console.log('code sent');
-                  // this.props.navigation.navigate('Verification', {
-                  //   confirmResult: confirmResult,
-                  // });
-
                   break;
                 case firebase.auth.PhoneAuthState.ERROR: // or 'error'
                   console.log('verification error');
@@ -79,46 +70,27 @@ function Login({navigation}) {
                   console.log('auto verify on android timed out');
                   break;
                 case firebase.auth.PhoneAuthState.AUTO_VERIFIED: // or 'verified'
-                  console.log('auto verified on android');
-                  navigation.navigate('Verification');
+                  let userNumber = `+${callingCode}${phoneNo}`;
 
-                  // setTimeout(() => {
-                  //   axios
-                  //     .post(
-                  //       `http://deaplearning.com/admin/app/api/t/user/login`,
-                  //       {
-                  //         u_id: number,
-                  //         phone: number,
-                  //         push_token: this.state.pushToken,
-                  //       },
-                  //     )
-                  //     .then(response => {
-                  //       if (response.data.status === 'login successfuly') {
-                  //         store.dispatch(
-                  //           onGoogleLoginSuccess(response.data.current_user[0]),
-                  //         );
-                  //         props.navigation.navigate('AuthLoading');
-                  //       } else {
-                  //         store.dispatch(
-                  //           onGoogleLoginSuccess({
-                  //             phone: number,
-                  //           }),
-                  //         );
-                  //         props.navigation.navigate('AddDetail');
-                  //       }
-                  //     })
-
-                  //     .catch(error => {
-                  //       console.log(error, 'errpr');
-
-                  //       // Alert.alert(JSON.stringify(error)) &&
-                  //       this.dropdown.alertWithType('error', 'Error', error) &&
-                  //         this.setState({
-                  //           message: `Code Confirm Error: ${error.message}`,
-                  //         });
-                  //     });
-                  // }, 3000);
-
+                  store.dispatch(
+                    addNumber({
+                      phone_no: `+${callingCode}${phoneNo}`,
+                      verifiedUser: true,
+                    }),
+                  );
+                  axios
+                    .get(
+                      `http://192.168.1.102:8000/user/login?contact_no=${userNumber}`,
+                    )
+                    .then(json => {
+                      if (json.data == 'User Has Not Registered!') {
+                        navigation.navigate('SignUp');
+                      } else {
+                        store.dispatch(onUserLoginSuccess(json.data));
+                        navigation.navigate('Home');
+                      }
+                    })
+                    .catch(e => console.log(e, 'something'));
                   break;
               }
             },
@@ -126,13 +98,14 @@ function Login({navigation}) {
               console.log(error, 'fromerror');
               console.log(error.verificationId);
             },
-            phoneAuthSnapshot => {
-              console.log(phoneAuthSnapshot, 'working auto verified');
-              navigation.navigate('SignUp');
-            },
+            phoneAuthSnapshot => {},
           );
 
-        // store.dispatch(onGoogleLoginSuccess({phone: number}));
+        store.dispatch(
+          addNumber({
+            phone_no: `+${callingCode}${phoneNo}`,
+          }),
+        );
       })
       .catch(e => {
         console.log('error =>', e);
@@ -172,8 +145,7 @@ function Login({navigation}) {
           </View>
           <TouchableOpacity
             style={styles.btnContainer}
-            // onPress={() => onLoginButtonPress()}
-            onPress={() => store.dispatch(onUserRegister(1223))}>
+            onPress={() => onLoginButtonPress()}>
             <Text style={styles.btnText}>Continue</Text>
           </TouchableOpacity>
         </View>

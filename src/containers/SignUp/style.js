@@ -55,6 +55,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 3,
     elevation: 3,
+    marginLeft: 4,
   },
   userAvatar: {
     flexDirection: 'row',

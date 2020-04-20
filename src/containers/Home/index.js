@@ -21,49 +21,75 @@ import {API_URL} from '../../config/apiConfig';
 function format_number(number) {
   let num = ``;
 
-  let splitNumberDash = number.split('-');
-  splitNumberDash.map(v => {
-    num += v;
-  });
-  let splitNumberPlusZero = num.split('+0');
-  num = ``;
-  splitNumberPlusZero.map(v => {
-    num += v;
-  });
-  let splitNumberPlus = num.split('+');
+  function fetchData(contacts) {
+    let final = [];
+    // contacts.map((v, i) => {
+    // +92 344 2382054
+    console.log('object');
+    axios
+      .get(`http://192.168.1.101:8000/user/contact_list?contact_no=923172142662`)
+      // , {
+      // contact_no: '923172142662',
+      // })
+      .then(s => console.log(s.data))
+      .catch(err => console.log(err));
 
-  num = ``;
-  splitNumberPlus.map(v => {
-    num += v;
-  });
-  let splitNumberPlus92 = num.split('+92');
+    // if (v.phoneNumbers[0]?.number.indexOf('+92')) {
+    //   let a = v.phoneNumbers[0]?.number.replace('0', '+92');
+    //   final.push(a);
+    // } else {
+    //   final.push(v.phoneNumbers[0]?.number);
+    // }
 
-  num = ``;
-  splitNumberPlus92.map(v => {
-    num += v;
-  });
-  let splitNumberSpace = num.split(' ');
+    // console.log(final && final , '::');
 
-  number = `+92`;
-  splitNumberSpace.map(v => {
-    number += v;
-  });
-  var lastFive = '+92' + number.substr(number.length - 10); // => "Tabs1"
+    // axios
+    //   .get(
+    //     `http://${API_URL}:8000/user/login?contact_no=${v.phoneNumbers
+    //       .length !== 0 && v.phoneNumbers[0].number}&contact_exist=true`,
+    //   )
+    //   .then(json => {
+    //     console.log(json ,"c")
 
-  return lastFive;
-}
+    //     // if (
+    //     //   json.data == 'User Has Not Registered!'
+    //     //   //  ||
+    //     //   // (json.data !== null &&
+    //     //   //   json.data !== false &&
+    //     //   //   json.data !== undefined)
+    //     // ) {
+    //     //   contacts[i].isUser = false;
+    //     //   // final.push(contacts[i]);
+    //     // } else {
+    //     //   contacts[i].isUser = json.data;
+    //     //   // final.push(contacts[i]);
+    //     //   console.log('push', json.data, i);
+    //     // }
+    //   })
+    //   .catch(err => console.log(err));
 
-function uniq_fast(a) {
-  var seen = {};
-  var out = [];
-  var len = a.length;
-  var j = 0;
-  for (var i = 0; i < len; i++) {
-    var item = a[i];
-    if (seen[item.phoneNumbers] !== 1) {
-      seen[item.phoneNumbers] = 1;
-      out[j++] = item;
-    }
+    // let json = axios.get(
+    //   `http://${API_URL}:8000/user/login?contact_no=${v.phoneNumbers
+    //     .length !== 0 && v.phoneNumbers[0].number}&contact_exist=true`,
+    // );
+    // if (
+    //   json.data == 'User Has Not Registered!' ||
+    //   (json.data !== null &&
+    //     json.data !== false &&
+    //     json.data !== undefined)
+    // ) {
+    //   contacts[i].isUser = false;
+    //   final.push(contacts[i]);
+    // } else {
+    //   consol.log("push", json.data)
+    //   contacts[i].isUser = json.data;
+    //   final.push(contacts[i]);
+    // }
+    // });
+    // if (final.length === contacts) {
+    // console.log('hi');
+    return contacts.sort((a, b) => a.isUser - b.isUser);
+    // }
   }
   return out;
 }
@@ -89,26 +115,10 @@ function Home({navigation}) {
             let request_arr = [];
             // setLoading(true);
 
-            contacts.map(v => {
-              if (v.phoneNumbers[0]) {
-                let contact = {
-                  phoneNumbers: format_number(v.phoneNumbers[0].number),
-                  name: v.displayName,
-                  raw_no: v.phoneNumbers[0].number,
-                };
-                request_arr.push(contact);
-              }
-            });
-            // console.log(uniq_fast(request_arr), request_arr.length, uniq_fast(request_arr).length)
-
-            axios
-              .post('http://' + API_URL + ':8000/user/if_contact_is_user', {
-                contacts: uniq_fast(request_arr),
-              })
-              .then(contacts => {
-                console.log(Object.keys(contacts.data));
-                setAllMobileUsers(contacts.data);
-              });
+            // if (fetchData(contacts).length === contacts.length) {
+            setAllMobileUsers(fetchData(contacts));
+            // setLoading(false);
+            // }
           }
         });
       } catch (err) {
