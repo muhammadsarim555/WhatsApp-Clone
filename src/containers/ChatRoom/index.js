@@ -10,7 +10,7 @@ export default function ChatRoom({navigation, route}) {
 
   const [roomData, setRoomData] = React.useState(null);
   const [otherUser, setOtherUser] = React.useState(null);
-  console.log(store.getState().auth.user._id);
+  // console.log(store.getState().auth.user._id);
   React.useEffect(() => {
     getRoomData();
   }, []);

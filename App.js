@@ -21,7 +21,7 @@ function App() {
           url={"http://" + API_URL + ':8000'}
           opts={{
             query: {
-              userId: 'op_user_1',
+              userId: store.getState().auth && store.getState().auth.user && store.getState().auth.user._id,
             },
           }}>
           <Navigation />

@@ -16,7 +16,7 @@ export default function Loader({navigation}) {
 
     if (phone_no && verifiedUser) {
       navigation.navigate('SignUp');
-    } else if (user?.contact_no) navigation.navigate('Home');
+    } else if (user?.contact_no) navigation.navigate('ChatList');
     else {
       navigation.navigate('Login');
     }
