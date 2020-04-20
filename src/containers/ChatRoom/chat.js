@@ -42,7 +42,7 @@ export default function Chat(props) {
           },
         })
         .then(data => {
-          // console.log('+++++++++++++++==', data.data);
+          console.log('+++++++++++++++==', data.data);
           setMessages(GiftedChat.append([], data.data));
         })
         .catch(err => console.log(err.message, 'get_room_data'));

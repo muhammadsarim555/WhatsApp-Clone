@@ -12,13 +12,13 @@ import Navigation from './src/navigation';
 import AuthNavigator from './src/navigation/authNavigator';
 
 function App() {
-  console.disableYellowBox = true;
+  // console.disableYellowBox = true;
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SocketIOProvider
-          url={API_URL}
+          url={"http://" + API_URL + ':8000'}
           opts={{
             query: {
               userId: 'op_user_1',
