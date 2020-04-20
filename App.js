@@ -18,10 +18,12 @@ function App() {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <SocketIOProvider
-          url={"http://" + API_URL + ':8000'}
+          url={'http://' + API_URL + ':8000'}
           opts={{
             query: {
-              userId: store.getState().auth && store.getState().auth.user && store.getState().auth.user._id,
+              userId: store.getState().auth.user
+                ? store.getState().auth.user._id
+                : '',
             },
           }}>
           <Navigation />

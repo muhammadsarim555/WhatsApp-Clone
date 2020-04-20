@@ -15,10 +15,10 @@ export default function Loader({navigation}) {
     const {phone_no, verifiedUser} = store.getState().auth?.testUser;
 
     if (phone_no && verifiedUser) {
-      navigation.navigate('SignUp');
-    } else if (user?.contact_no) navigation.navigate('ChatList');
+      navigation.replace('SignUp');
+    } else if (user?.contact_no) navigation.replace('ChatList');
     else {
-      navigation.navigate('Login');
+      navigation.replace('Login');
     }
     handleChange();
   });
@@ -31,9 +31,9 @@ export default function Loader({navigation}) {
 
     store.subscribe(() => {
       if (phone_no && verifiedUser) {
-        navigation.navigate('SignUp');
+        navigation.replace('SignUp');
       } else if (store.getState().auth?.user?.contact_no) {
-        navigation.navigate('Home');
+        navigation.replace('ChatList');
       }
       // else {
       //   navigation.navigate('Login');
