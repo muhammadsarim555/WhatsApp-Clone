@@ -18,7 +18,7 @@
     "galio-framework": "^0.6.3",
     "lottie-react-native": "^3.3.2",
     "react": "16.9.0",
-    "react-native": "0.61.5",
+    "react-native": "0.62.3",
     "react-native-axios": "^0.17.1",
     "react-native-confirmation-code-input": "^1.0.4",
     "react-native-contacts": "^5.1.0",
